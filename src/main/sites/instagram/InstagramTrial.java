@@ -2,11 +2,11 @@ package main.sites.instagram;
 
 import org.openqa.selenium.WebDriver;
 
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 import main.sites.instagram.pages.LandingPage;
 import main.sites.instagram.pages.UserPage;
 
-public abstract class InstagramTrial extends Trial {
+public abstract class InstagramTrial extends AbstractTrial {
 
 	// ensures the creation of only one page object per specific page
 	protected LandingPage landingPage;

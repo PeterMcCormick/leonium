@@ -34,7 +34,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.google.common.base.Function;
 
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 import main.utils.Utils;
 
 public class BrowserHandler {
@@ -53,11 +53,11 @@ public class BrowserHandler {
 		this(null, null, -1);
 	}
 
-	public BrowserHandler(Trial validator) {
+	public BrowserHandler(AbstractTrial validator) {
 		this(validator, 15);
 	}
 
-	public BrowserHandler(Trial validator, int defaultWait) {
+	public BrowserHandler(AbstractTrial validator, int defaultWait) {
 		this(validator.driver, validator.logger, defaultWait);
 	}
 

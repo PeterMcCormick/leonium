@@ -2,9 +2,9 @@ package main.sites.youtube;
 
 import org.openqa.selenium.WebDriver;
 
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 
-public class YouTubeTrial extends Trial {
+public class YouTubeTrial extends AbstractTrial {
 
 	public YouTubeTrial(WebDriver driver, String url) {
 		super(driver, url);

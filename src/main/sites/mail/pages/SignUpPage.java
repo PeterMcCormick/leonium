@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import main.sites.PageObject;
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 import main.utils.Utils;
 import main.utils.browserutils.BrowserLogger;
 
@@ -29,7 +29,7 @@ public class SignUpPage extends PageObject {
 
 	public By byCheckBoxRecaptcha = By.xpath("[class='recaptcha-checkbox-checkmark']");
 
-	public SignUpPage(Trial runner) {
+	public SignUpPage(AbstractTrial runner) {
 		super(runner);
 	}
 

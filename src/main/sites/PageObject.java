@@ -9,10 +9,10 @@ import main.utils.Utils;
 import main.utils.browserutils.BrowserHandler;
 
 public abstract class PageObject {
-	protected Trial runner;
+	protected AbstractTrial runner;
 	protected BrowserHandler web;
 
-	public PageObject(Trial runner) {
+	public PageObject(AbstractTrial runner) {
 		this.runner = runner;
 		this.web = runner.web;
 	}

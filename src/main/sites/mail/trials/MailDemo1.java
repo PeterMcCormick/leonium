@@ -2,9 +2,9 @@ package main.sites.mail.trials;
 
 import org.openqa.selenium.WebDriver;
 
-import main.sites.mail.MailTrial;
+import main.sites.mail.AbstractMailTrial;
 
-public class MailDemo1 extends MailTrial {
+public class MailDemo1 extends AbstractMailTrial {
 
 	public MailDemo1(String url) {
 		super(url);

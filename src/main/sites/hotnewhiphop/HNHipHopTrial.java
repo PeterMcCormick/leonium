@@ -2,10 +2,10 @@ package main.sites.hotnewhiphop;
 
 import org.openqa.selenium.WebDriver;
 
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 import main.sites.hotnewhiphop.pages.HomePage;
 
-public abstract class HNHipHopTrial extends Trial {
+public abstract class HNHipHopTrial extends AbstractTrial {
 
 	protected final HomePage homePage = new HomePage(this);
 

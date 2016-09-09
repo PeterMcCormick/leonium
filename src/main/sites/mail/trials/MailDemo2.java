@@ -2,10 +2,10 @@ package main.sites.mail.trials;
 
 import org.openqa.selenium.WebDriver;
 
-import main.sites.mail.MailTrial;
+import main.sites.mail.AbstractMailTrial;
 import main.utils.Utils;
 
-public class MailDemo2 extends MailTrial {
+public class MailDemo2 extends AbstractMailTrial {
 	private Long seed = System.nanoTime();
 	private String firstName = Utils.getColumnVal(seed);
 	private String lastName = Utils.getColumnVal(seed.hashCode() + this.hashCode());

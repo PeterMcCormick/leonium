@@ -3,7 +3,7 @@ package main.sites.mail.pages;
 import org.openqa.selenium.By;
 
 import main.sites.PageObject;
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 
 // https://service.mail.com/shareFeedback.html
 public class HomePage extends PageObject {
@@ -14,7 +14,7 @@ public class HomePage extends PageObject {
 	public By byButtonSubmitLogin = By.cssSelector(".btn.btn-block.login-submit");
 	public By byButtonSignUp = By.id("sign-up");
 
-	public HomePage(Trial runner) {
+	public HomePage(AbstractTrial runner) {
 		super(runner);
 	}
 

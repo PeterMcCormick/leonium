@@ -3,7 +3,7 @@ package main.sites.twitter.pages;
 import org.openqa.selenium.By;
 
 import main.sites.PageObject;
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 
 public class LandingPage extends PageObject {
 	public final By byButtonLogin0 = By.cssSelector(".Button.StreamsLogin.js-login");
@@ -11,7 +11,7 @@ public class LandingPage extends PageObject {
 	public final By byInputUsername = By.cssSelector("[name='session[username_or_email]']");
 	public final By byInputPassword = By.cssSelector("[name='session[password]']");
 
-	public LandingPage(Trial runner) {
+	public LandingPage(AbstractTrial runner) {
 		super(runner);
 	}
 

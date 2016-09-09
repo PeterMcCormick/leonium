@@ -14,7 +14,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 import main.utils.Utils;
 
 public class BrowserLogger extends ExtentReports {
@@ -22,7 +22,7 @@ public class BrowserLogger extends ExtentReports {
 	private final ExtentTest extentTest;
 	private final String loggerPath;
 
-	public BrowserLogger(String loggerPath, Class<? extends Trial> trial, WebDriver driver) {
+	public BrowserLogger(String loggerPath, Class<? extends AbstractTrial> trial, WebDriver driver) {
 		super(loggerPath + "/Result.html", false);
 		this.loggerPath = loggerPath;
 		this.extentTest = startTest(getTrialName(trial));
@@ -55,7 +55,7 @@ public class BrowserLogger extends ExtentReports {
 		return extentTest.getTest().getName();
 	}
 
-	private String getTrialName(Class<? extends Trial> trial) {
+	private String getTrialName(Class<? extends AbstractTrial> trial) {
 		return Utils.removeChars(trial.getSimpleName(), "!@#$%^&*()_+:{}");
 	}
 

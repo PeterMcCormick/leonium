@@ -2,7 +2,7 @@ package main;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 import main.sites.friendproject.trials.FPDemo1;
 import main.sites.hotnewhiphop.trials.HNHdemo1;
 import main.sites.instagram.trials.IGTdemo1;
@@ -54,7 +54,7 @@ public class MainDriver {
 
 	public static void mailTest2b() {
 		String url = "https://service.mail.com/registration.html?edition=us&lang=en&#.7518-header-signup2-1";
-		Trial t = null;
+		AbstractTrial t = null;
 		for (int i = 0; i < 1; i++) {
 			t = new MailDemo2(url);
 			t.start();

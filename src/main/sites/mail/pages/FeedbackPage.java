@@ -6,12 +6,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import main.sites.PageObject;
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 
 public class FeedbackPage extends PageObject {
 	public final By byFields = By.cssSelector("input[id *= 'id'], select[id *= 'id'], textarea[id *= 'id']");
 
-	public FeedbackPage(Trial runner) {
+	public FeedbackPage(AbstractTrial runner) {
 		super(runner);
 	}
 

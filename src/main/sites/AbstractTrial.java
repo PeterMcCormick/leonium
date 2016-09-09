@@ -8,7 +8,7 @@ import main.utils.browserutils.BrowserHandler;
 import main.utils.browserutils.BrowserLogger;
 import main.utils.browserutils.browserwrappers.PhantomDriver;
 
-public abstract class Trial extends Thread {
+public abstract class AbstractTrial extends Thread {
 
 	protected boolean pass;
 	protected String url;
@@ -22,11 +22,11 @@ public abstract class Trial extends Thread {
 	protected static final String home = System.getProperty("user.home");
 	protected static final String name = System.getProperty("user.name");
 
-	public Trial(String url) {
+	public AbstractTrial(String url) {
 		this(new PhantomDriver(), url);
 	}
 
-	public Trial(WebDriver driver, String url) {
+	public AbstractTrial(WebDriver driver, String url) {
 		this.pass = false;
 		this.url = url;
 		this.driver = driver;
@@ -63,7 +63,7 @@ public abstract class Trial extends Thread {
 	}
 
 	public String getLoggerPath() {
-		Class<? extends Trial> cls = getClass();
+		Class<? extends AbstractTrial> cls = getClass();
 		return getLoggerPath("MyTrials", cls.getSuperclass().getSimpleName());
 	}
 

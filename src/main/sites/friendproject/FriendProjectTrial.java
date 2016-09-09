@@ -1,9 +1,9 @@
 package main.sites.friendproject;
 
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 import main.sites.friendproject.pages.HomePage;
 
-public abstract class FriendProjectTrial extends Trial {
+public abstract class FriendProjectTrial extends AbstractTrial {
 	protected final HomePage homePage = new HomePage(this);
 
 	public FriendProjectTrial(String url) {

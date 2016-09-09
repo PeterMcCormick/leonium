@@ -7,13 +7,13 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import main.sites.PageObject;
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 
 public class UserPage extends PageObject {
 	public By followerList = By.xpath("//span[@id='react-root']/section/main/article/header/div[2]/ul/li[2]/a/span[3]");
 	public By followers = By.cssSelector("._jvpff._k2yal._csba8._k0ujq._nv5lf");
 
-	public UserPage(Trial runner) {
+	public UserPage(AbstractTrial runner) {
 		super(runner);
 	}
 
