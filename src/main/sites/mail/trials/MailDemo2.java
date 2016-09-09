@@ -6,9 +6,9 @@ import main.sites.mail.MailTrial;
 import main.utils.Utils;
 
 public class MailDemo2 extends MailTrial {
-	private long seed = System.nanoTime();
+	private Long seed = System.nanoTime();
 	private String firstName = Utils.getColumnVal(seed);
-	private String lastName = Utils.getColumnVal(this.hashCode());
+	private String lastName = Utils.getColumnVal(seed.hashCode() + this.hashCode());
 	private String desiredEmail = String.format("%s.%s_%s@email.com", firstName, lastName, seed);
 
 	public MailDemo2(String url) {
