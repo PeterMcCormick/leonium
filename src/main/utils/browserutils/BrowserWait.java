@@ -25,7 +25,6 @@ public class BrowserWait {
 	protected final WebDriver driver;
 
 	public BrowserWait(BrowserHandler web) {
-
 		this.web = web;
 		this.driver = web.driver;
 		this.logger = web.logger;
