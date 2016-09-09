@@ -2,9 +2,9 @@ package main.sites.hotnewhiphop.trials;
 
 import org.openqa.selenium.WebDriver;
 
-import main.sites.hotnewhiphop.HNHipHopTrial;
+import main.sites.hotnewhiphop.AbstractHNHipHopTrial;
 
-public class HNHdemo1 extends HNHipHopTrial {
+public class HNHdemo1 extends AbstractHNHipHopTrial {
 	public HNHdemo1(String url) {
 		super(url);
 	}

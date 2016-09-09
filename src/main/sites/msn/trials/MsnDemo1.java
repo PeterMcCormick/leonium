@@ -2,9 +2,9 @@ package main.sites.msn.trials;
 
 import org.openqa.selenium.WebDriver;
 
-import main.sites.msn.MsnTrial;
+import main.sites.msn.AbstractMsnTrial;
 
-public class MsnDemo1 extends MsnTrial {
+public class MsnDemo1 extends AbstractMsnTrial {
 	public MsnDemo1(String url) {
 		super(url);
 	}

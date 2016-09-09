@@ -1,8 +1,8 @@
 package main.sites.twitter.trials;
 
-import main.sites.twitter.TwitterTrial;
+import main.sites.twitter.AbstractTwitterTrial;
 
-public class TwitterDemo0 extends TwitterTrial {
+public class TwitterDemo0 extends AbstractTwitterTrial {
 
 	public TwitterDemo0(String url) {
 		super(url);

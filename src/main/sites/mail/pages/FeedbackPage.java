@@ -5,10 +5,10 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import main.sites.PageObject;
+import main.sites.AbstractPageObject;
 import main.sites.AbstractTrial;
 
-public class FeedbackPage extends PageObject {
+public class FeedbackPage extends AbstractPageObject {
 	public final By byFields = By.cssSelector("input[id *= 'id'], select[id *= 'id'], textarea[id *= 'id']");
 
 	public FeedbackPage(AbstractTrial runner) {

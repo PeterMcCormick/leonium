@@ -2,11 +2,11 @@ package main.sites.mail.pages;
 
 import org.openqa.selenium.By;
 
-import main.sites.PageObject;
+import main.sites.AbstractPageObject;
 import main.sites.AbstractTrial;
 
 // https://service.mail.com/shareFeedback.html
-public class HomePage extends PageObject {
+public class HomePage extends AbstractPageObject {
 	public By byButtonLogin = By.id("login-button");
 	public By byInputEmail = By.id("login-email");
 	public By byInputPassword = By.id("login-password");

@@ -3,10 +3,10 @@ package main.sites.twitter;
 import main.sites.AbstractTrial;
 import main.sites.twitter.pages.LandingPage;
 
-public abstract class TwitterTrial extends AbstractTrial {
+public abstract class AbstractTwitterTrial extends AbstractTrial {
 	protected LandingPage landingPage = new LandingPage(this);
 
-	public TwitterTrial(String url) {
+	public AbstractTwitterTrial(String url) {
 		super(url);
 	}
 

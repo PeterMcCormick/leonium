@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import main.sites.PageObject;
+import main.sites.AbstractPageObject;
 import main.sites.AbstractTrial;
 import main.utils.Utils;
 import main.utils.browserutils.BrowserLogger;
 
-public class SignUpPage extends PageObject {
+public class SignUpPage extends AbstractPageObject {
 	public By byInputFirstName = By.xpath("(.//input)[2]");
 	public By byInputLastName = By.xpath("(.//input)[3]");
 	public By byInputDesiredEmail = By.xpath("(.//input)[4]");

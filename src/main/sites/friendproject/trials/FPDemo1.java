@@ -1,8 +1,8 @@
 package main.sites.friendproject.trials;
 
-import main.sites.friendproject.FriendProjectTrial;
+import main.sites.friendproject.AbstractFriendProjectTrial;
 
-public class FPDemo1 extends FriendProjectTrial {
+public class FPDemo1 extends AbstractFriendProjectTrial {
 
 	public FPDemo1(String url) {
 		super(url);
