@@ -18,7 +18,7 @@ public abstract class PageObject {
 	}
 
 	public By[] getDeclaredBys() {
-		ArrayList<By> byList = Utils.getFields(this, By.class);
+		ArrayList<By> byList = Utils.getFieldValues(this, By.class);
 		int n = byList.size();
 		By[] byArray = new By[n];
 		for (int i = 0; i < n; i++) {

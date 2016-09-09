@@ -40,19 +40,26 @@ public class Utils {
 
 	public static void test() {
 		Object ranObj = "" + randint(9999);
-		Utils.printFields(ranObj);
-		for (Object obj : getFields(ranObj, String.class)) {
+		printFields(ranObj);
+		for (Object obj : getFieldValues(ranObj, String.class)) {
 			print(obj.toString());
 		}
 	}
 
-	public static <T, E> ArrayList<E> getFields(T object, Class<E> cls) {
+	/**
+	 * @param object
+	 *            - object whose fields to access
+	 * @param fieldClass
+	 *            - type of field to retrieve
+	 * @return - ArrayList of values
+	 */
+	public static <T, E> ArrayList<E> getFieldValues(T object, Class<E> fieldClass) {
 		ArrayList<E> fields = new ArrayList<E>();
 		for (Field f : object.getClass().getDeclaredFields()) {
-			if (f.getType().equals(cls)) {
+			if (f.getType().equals(fieldClass)) {
 				try {
 					boolean defaultAccess = f.isAccessible();
-					E obj = cls.cast(f.get(object));
+					E obj = fieldClass.cast(f.get(object));
 
 					f.setAccessible(true);
 					fields.add(obj);
