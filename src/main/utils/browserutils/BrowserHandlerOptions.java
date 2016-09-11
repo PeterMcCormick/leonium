@@ -8,7 +8,7 @@ public class BrowserHandlerOptions {
 	public final BrowserOption continueOnException = new BrowserOption();
 	public final BrowserOption logOnWait = new BrowserOption();
 	public final BrowserOption logAutonomously = new BrowserOption();
-	public final BrowserOption defaultWait = new BrowserOption();
+	public final BrowserOption<Integer> defaultWait = new BrowserOption<Integer>(15);
 
 	public class BrowserOption<T> {
 		private boolean isEnabled;

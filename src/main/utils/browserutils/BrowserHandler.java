@@ -83,7 +83,8 @@ public class BrowserHandler {
 
 	// click by byType
 	public boolean click(By by) {
-		return click(wait.forConditions(by, defaultWait, "presence", "visible", "enabled", "clickable", "stale"));
+		return click(wait.forConditions(by, options.defaultWait.getValue(), "presence", "visible", "enabled",
+				"clickable", "stale"));
 	}
 
 	// click by WebElement
@@ -188,7 +189,7 @@ public class BrowserHandler {
 
 	// return non-stale WebElement specified by byType
 	public WebElement getElement(By by) {
-		WebElement we = wait.forConditions(by, defaultWait, "presence", "stale");
+		WebElement we = wait.forConditions(by, options.defaultWait.getValue(), "presence", "stale");
 		logger.logMinorEvent(we != null, "Located element [" + webElementToString(we) + "]");
 		return we;
 	}
@@ -216,7 +217,7 @@ public class BrowserHandler {
 
 	// return list of WebElements with specified byType
 	public ArrayList<WebElement> getElements(By by) {
-		ArrayList<WebElement> elements = wait.forPresences(defaultWait, by);
+		ArrayList<WebElement> elements = wait.forPresences(options.defaultWait.getValue(), by);
 		int count = elements.size();
 		logger.logMinorEvent(count > 0, "Located " + count + " elements [" + by + "]");
 		return elements;
@@ -235,20 +236,21 @@ public class BrowserHandler {
 		WebElement[] elements = new WebElement[bys.length];
 		String parentWindow = driver.getWindowHandle();
 		TargetLocator switchTo = driver.switchTo();
+		int defaultWait = options.defaultWait.getValue();
 
 		for (String currentWindow : driver.getWindowHandles()) {
 			switchTo.window(currentWindow);
 			try {
 				wait.forUrlToContain(3, windowUrl);
 				if (driver.getCurrentUrl().contains(windowUrl)) {
-					setDefaultWait(3);
+					options.defaultWait.setValue(3);
 					elements = getElements(bys);
 				}
 			} catch (NoSuchElementException | TimeoutException e) {
 				continue;
 			}
 		}
-		setDefaultWait(defaultWait);
+		options.defaultWait.setValue(defaultWait);
 		switchTo.defaultContent();
 		switchTo.window(parentWindow);
 		return elements;
@@ -346,7 +348,7 @@ public class BrowserHandler {
 	}
 
 	public void highlightElement(By by) {
-		highlightElement(wait.forConditions(by, defaultWait, "presence", "visible"));
+		highlightElement(wait.forConditions(by, options.defaultWait.getValue(), "presence", "visible"));
 	}
 
 	public void highlightElement(WebElement we) {
@@ -407,7 +409,7 @@ public class BrowserHandler {
 	public boolean navigateTo(String url) {
 		driver.get(url);
 		String details = "Successfully navigated to url '" + url + "'";
-		return logger.logMinorEvent(wait.forPageLoad(defaultWait), details);
+		return logger.logMinorEvent(wait.forPageLoad(options.defaultWait.getValue()), details);
 	}
 
 	// print all driver logs
@@ -457,7 +459,7 @@ public class BrowserHandler {
 
 	// select by byType
 	public Select select(By by) {
-		return select(wait.forConditions(by, defaultWait, "visible", "enabled", "stale"));
+		return select(wait.forConditions(by, options.defaultWait.getValue(), "visible", "enabled", "stale"));
 	}
 
 	// select by WebElement
@@ -493,7 +495,8 @@ public class BrowserHandler {
 	}
 
 	public boolean selectByRandomIndex(By by) {
-		return selectByRandomIndex(wait.forConditions(by, defaultWait, "visible", "enabled", "stale"));
+		return selectByRandomIndex(
+				wait.forConditions(by, options.defaultWait.getValue(), "visible", "enabled", "stale"));
 	}
 
 	public boolean selectByRandomIndex(WebElement we) {
@@ -522,7 +525,7 @@ public class BrowserHandler {
 
 	// send keys by byType
 	public boolean sendKeys(By by, CharSequence... keys) {
-		return sendKeys(wait.forKeyable(by, defaultWait), keys);
+		return sendKeys(wait.forKeyable(by, options.defaultWait.getValue()), keys);
 	}
 
 	// send keys by WebElement
@@ -539,7 +542,7 @@ public class BrowserHandler {
 				// NOTE** some input elements cannot be cleared
 				// this exception is caught when an unclearable element
 				// invokes the .clear() method
-				wait.forKeyable(toByVal(we), defaultWait);
+				wait.forKeyable(toByVal(we), options.defaultWait.getValue());
 			}
 			we.sendKeys(keys);
 			success = true;
@@ -556,10 +559,6 @@ public class BrowserHandler {
 			logger.logException(e);
 		}
 		return success;
-	}
-
-	public void setDefaultWait(int waitSeconds) {
-		this.defaultWait = waitSeconds;
 	}
 
 	// switch to pop up and return parent window handler
