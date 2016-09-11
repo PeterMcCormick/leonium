@@ -1,6 +1,10 @@
 package main;
 
+import java.util.Arrays;
+
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import main.sites.AbstractTrial;
 import main.sites.friendproject.trials.FPDemo1;
