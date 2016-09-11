@@ -65,7 +65,6 @@ public class BrowserHandler {
 		this(driver, logger, 15);
 	}
 
-	@SuppressWarnings("unchecked")
 	public BrowserHandler(WebDriver driver, BrowserLogger logger, int defaultWait) {
 		this.driver = driver;
 		this.logger = logger;
@@ -78,7 +77,7 @@ public class BrowserHandler {
 		this.bot = new BrowserBot(this);
 
 		options.defaultWait.setValue(defaultWait);
-		options.continueOnException.setEnabled(true);
+		options.continueOnException.setValue(true);
 	}
 
 	// click by byType
@@ -206,7 +205,7 @@ public class BrowserHandler {
 			try {
 				elements[i] = getElement(bys[i]);
 			} catch (Exception e) {
-				if (!options.continueOnException.isEnabled()) {
+				if (!options.continueOnException.getValue()) {
 					throw e;
 				}
 				logger.logException(e);
@@ -374,7 +373,7 @@ public class BrowserHandler {
 			try {
 				highlightElement(getElement(bys[i]), colors[i % colors.length]);
 			} catch (NullPointerException npe) {
-				if (!options.continueOnException.isEnabled()) {
+				if (!options.continueOnException.getValue()) {
 					throw npe;
 				}
 				logger.logException(npe);
@@ -553,7 +552,7 @@ public class BrowserHandler {
 			logger.logMinorEvent(success, "Sent keys \"" + keysVal.toString() + "\" to [" + elem + "]");
 			screenshotElement(we);
 		} catch (Exception e) {
-			if (!options.continueOnException.isEnabled()) {
+			if (!options.continueOnException.getValue()) {
 				throw e;
 			}
 			logger.logException(e);

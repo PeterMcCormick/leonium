@@ -28,9 +28,9 @@ public abstract class AbstractPageObject {
 	}
 
 	public void highlightElements() {
-		boolean defaultOption = web.options.continueOnException.isEnabled();
-		web.options.continueOnException.setEnabled(true);
+		boolean defaultOption = web.options.continueOnException.getValue();
+		web.options.continueOnException.setValue(true);
 		web.highlightElements(getDeclaredBys());
-		web.options.continueOnException.setEnabled(defaultOption);
+		web.options.continueOnException.setValue(defaultOption);
 	}
 }

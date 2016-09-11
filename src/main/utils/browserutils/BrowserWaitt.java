@@ -248,7 +248,7 @@ public class BrowserWaitt {
 				}
 				return true;
 			} catch (UnhandledAlertException | TimeoutException e) {
-				if (web.options.continueOnException.isEnabled()) {
+				if (web.options.continueOnException.getValue()) {
 					logger.logException(e);
 					return false;
 				}

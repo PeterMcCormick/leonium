@@ -20,7 +20,7 @@ public class MailDemo2 extends AbstractMailTrial {
 	}
 
 	protected void setup() {
-		web.options.continueOnException.setEnabled(true);
+		web.options.continueOnException.setValue(true);
 		web.options.defaultWait.setValue(5);
 	}
 

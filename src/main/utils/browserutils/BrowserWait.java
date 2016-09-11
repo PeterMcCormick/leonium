@@ -75,7 +75,7 @@ public class BrowserWait {
 				we = driver.findElement(by);
 			}
 		} catch (NoSuchElementException | InvalidElementStateException e) {
-			if (!web.options.continueOnException.isEnabled()) {
+			if (!web.options.continueOnException.getValue()) {
 				throw e;
 			}
 		}
