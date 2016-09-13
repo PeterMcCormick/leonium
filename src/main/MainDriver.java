@@ -1,10 +1,6 @@
 package main;
 
-import java.util.Arrays;
-
 import org.openqa.selenium.firefox.FirefoxDriver;
-
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import main.sites.AbstractTrial;
 import main.sites.friendproject.trials.FPDemo1;
@@ -59,10 +55,12 @@ public class MainDriver {
 	public static void mailTest2b() {
 		String url = "https://service.mail.com/registration.html?edition=us&lang=en&#.7518-header-signup2-1";
 		AbstractTrial t = null;
+
 		for (int i = 0; i < 1; i++) {
 			t = new MailDemo2(url);
 			t.start();
 		}
+
 		while (t.isAlive()) {
 		}
 		Utils.openFile(t.getLoggerPath() + "/Result.html");

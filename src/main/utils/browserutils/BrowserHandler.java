@@ -90,7 +90,7 @@ public class BrowserHandler {
 	public boolean click(WebElement we) {
 		boolean success = false;
 		try {
-			screenshotElement(we);
+			logScreenshotElement(we);
 			we.click();
 			success = true;
 		} catch (Exception e) {
@@ -319,7 +319,7 @@ public class BrowserHandler {
 			text = we.getText();
 			String details = "Retrieved text from element [" + webElementToString(we) + "]";
 			logger.logMinorEvent(Utils.strsNotNull(text), details + "<br></u></strike><b>\"" + text + "\"</b>");
-			screenshotElement(we);
+			logScreenshotElement(we);
 		} catch (StaleElementReferenceException | NullPointerException e) {
 			logger.logException(e);
 		}
@@ -358,7 +358,7 @@ public class BrowserHandler {
 	public void highlightElement(WebElement we, String color) {
 		String script = "arguments[0].style.border='3px solid %s'";
 		jse.executeScript(String.format(script, color), we);
-		screenshotElement(we);
+		logScreenshotElement(we);
 	}
 
 	public void highlightElements(By bys) {
@@ -440,8 +440,7 @@ public class BrowserHandler {
 				ImageIO.write(eleScreenshot, "png", screenshot);
 				file = new File(logger.getLoggerPath() + eleName + System.currentTimeMillis() + ".png");
 				FileUtils.copyFile(screenshot, file);
-				logger.logInfo(logger.getTest().addScreenCapture(file.getName()) + "<br>"
-						+ logger.colorTag("green", file.getName()));
+
 			} catch (UnhandledAlertException uae) {
 				bot.screenshotElement(we);
 			} catch (RasterFormatException e) {
@@ -450,6 +449,13 @@ public class BrowserHandler {
 			}
 		}
 		return file;
+	}
+
+	public void logScreenshotElement(WebElement we) {
+		File file = screenshotElement(we);
+		bot.brain.setActiveElementImage(file.getAbsolutePath());
+		logger.logInfo(
+				logger.getTest().addScreenCapture(file.getName()) + "<br>" + logger.colorTag("green", file.getName()));
 	}
 
 	public File screenshotElementt(WebElement we) {
@@ -470,7 +476,7 @@ public class BrowserHandler {
 			logger.logException(e);
 		}
 		logger.logMinorEvent(select != null, "Selected [" + webElementToString(we) + "]");
-		screenshotElement(we);
+		logScreenshotElement(we);
 		return select;
 	}
 
@@ -489,7 +495,7 @@ public class BrowserHandler {
 			logger.logException(e);
 		}
 		logger.logMinorEvent(success, "Selected index \"" + index + "\" from [" + webElementToString(we) + "]");
-		screenshotElement(we);
+		logScreenshotElement(we);
 		return success;
 	}
 
@@ -518,7 +524,7 @@ public class BrowserHandler {
 			logger.logException(e);
 		}
 		logger.logMinorEvent(success, "Selected \"" + visibleText + "\" from [" + webElementToString(we) + "]");
-		screenshotElement(we);
+		logScreenshotElement(we);
 		return success;
 	}
 
@@ -550,7 +556,7 @@ public class BrowserHandler {
 				keysVal.append(cs);
 			}
 			logger.logMinorEvent(success, "Sent keys \"" + keysVal.toString() + "\" to [" + elem + "]");
-			screenshotElement(we);
+			logScreenshotElement(we);
 		} catch (Exception e) {
 			if (!options.continueOnException.getValue()) {
 				throw e;
