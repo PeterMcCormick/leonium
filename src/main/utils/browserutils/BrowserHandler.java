@@ -442,7 +442,6 @@ public class BrowserHandler {
 				FileUtils.copyFile(screenshot, file);
 
 			} catch (UnhandledAlertException uae) {
-				bot.screenshotElement(we);
 			} catch (RasterFormatException e) {
 			} catch (Exception e) {
 				logger.logException(e);
@@ -456,10 +455,6 @@ public class BrowserHandler {
 		bot.brain.setActiveElementImage(file.getAbsolutePath());
 		logger.logInfo(
 				logger.getTest().addScreenCapture(file.getName()) + "<br>" + logger.colorTag("green", file.getName()));
-	}
-
-	public File screenshotElementt(WebElement we) {
-		return bot.screenshotElement(we);
 	}
 
 	// select by byType

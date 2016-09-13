@@ -30,15 +30,12 @@ public class BrowserBot {
 	private final Actions actions;
 	private final Robot robot;
 
-	private final Runtime runtime;
-
 	public BrowserBot(BrowserHandler web) {
 		this.web = web;
 		this.logger = web.logger;
 		this.driver = web.driver;
 		this.actions = new Actions(web.driver);
 		this.robot = getRobot();
-		this.runtime = Runtime.getRuntime();
 		new Listener().start();
 	}
 
@@ -73,35 +70,6 @@ public class BrowserBot {
 	private Actions perform(Actions action) {
 		action.build().perform();
 		return action;
-	}
-
-	public void screenshot() { // TODO - return File ?
-		RemoteWebDriver rwd = ((RemoteWebDriver) web.driver);
-		try {
-			rwd.getCommandExecutor().execute(new Command(rwd.getSessionId(), DriverCommand.ELEMENT_SCREENSHOT));
-		} catch (IOException e) {
-			logger.logException(e);
-		}
-
-	}
-
-	public File screenshotElement(WebElement we) { // TODO - TEST
-		moveToElement(we);
-		Point p = we.getLocation();
-		Dimension d = we.getSize();
-		activateScreen();
-		BufferedImage bi = robot.createScreenCapture(new Rectangle(p.getX(), p.getY(), d.getWidth(), d.getHeight()));
-		String eleName = Utils.removeChars(web.webElementToString(we), "~!@#$&%^*':<>\\/()[]{}") + " - ";
-		String fileName = eleName + System.currentTimeMillis() + ".png";
-		String directory = logger.getLoggerPath();
-		File file = new File(directory + fileName);
-		logger.logInfo(logger.getTest().addScreenCapture(file.getName()) + logger.colorTag("green", file.getName()));
-		try {
-			ImageIO.write(bi, "png", file);
-		} catch (IOException e) {
-			logger.logException(e);
-		}
-		return file;
 	}
 
 	public class Listener extends Thread {
