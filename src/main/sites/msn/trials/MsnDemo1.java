@@ -5,8 +5,8 @@ import org.openqa.selenium.WebDriver;
 import main.sites.msn.AbstractMsnTrial;
 
 public class MsnDemo1 extends AbstractMsnTrial {
-	public MsnDemo1(String url) {
-		super(url);
+	public MsnDemo1() {
+		super("http://www.msn.com/");
 	}
 
 	public MsnDemo1(WebDriver driver, String url) {

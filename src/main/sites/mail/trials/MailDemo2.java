@@ -11,6 +11,10 @@ public class MailDemo2 extends AbstractMailTrial {
 	private String lastName = Utils.getColumnVal(seed.hashCode() + this.hashCode());
 	private String desiredEmail = String.format("%s.%s_%s@email.com", firstName, lastName, seed);
 
+	public MailDemo2() {
+		super("http://mail.com/");
+	}
+
 	public MailDemo2(String url) {
 		super(url);
 	}

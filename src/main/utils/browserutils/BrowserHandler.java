@@ -440,7 +440,6 @@ public class BrowserHandler {
 				ImageIO.write(eleScreenshot, "png", screenshot);
 				file = new File(logger.getLoggerPath() + eleName + System.currentTimeMillis() + ".png");
 				FileUtils.copyFile(screenshot, file);
-
 			} catch (UnhandledAlertException uae) {
 			} catch (RasterFormatException e) {
 			} catch (Exception e) {
@@ -452,9 +451,9 @@ public class BrowserHandler {
 
 	public void logScreenshotElement(WebElement we) {
 		File file = screenshotElement(we);
-		bot.brain.setActiveElementImage(file.getAbsolutePath());
-		logger.logInfo(
-				logger.getTest().addScreenCapture(file.getName()) + "<br>" + logger.colorTag("green", file.getName()));
+		String filename = file.getName();
+		//bot.displayImage(file);
+		logger.logInfo(logger.getTest().addScreenCapture(filename) + "<br>" + logger.colorTag("green", filename));
 	}
 
 	// select by byType

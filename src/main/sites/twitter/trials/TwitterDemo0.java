@@ -4,8 +4,8 @@ import main.sites.twitter.AbstractTwitterTrial;
 
 public class TwitterDemo0 extends AbstractTwitterTrial {
 
-	public TwitterDemo0(String url) {
-		super(url);
+	public TwitterDemo0() {
+		super("https://twitter.com/");
 	}
 
 	@Override

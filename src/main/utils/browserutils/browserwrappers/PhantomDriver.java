@@ -3,9 +3,11 @@ package main.utils.browserutils.browserwrappers;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -25,22 +27,42 @@ public class PhantomDriver extends PhantomJSDriver {
 	}
 
 	public PhantomDriver() {
-		super(desiredCapabilities());
+		super(Utils.printFields(proxyCapabilities()));
 		this.setLogLevel(Level.OFF);
 		getErrorHandler().setIncludeServerErrors(false);
+		manage().window().maximize();
+		Utils.printFields(this);
 	}
 
 	private static DesiredCapabilities desiredCapabilities() {
 		DesiredCapabilities caps = new DesiredCapabilities();
 		ArrayList<String> cliArgsCap = new ArrayList<String>();
 		cliArgsCap.add("--webdriver-loglevel=NONE");
+		cliArgsCap.add("--proxy=127.0.0.1:1024");
+		cliArgsCap.add("--proxy-auth=username:password");
+		cliArgsCap.add("--proxy-type=socks5");
 
 		caps.setJavascriptEnabled(true);
-		caps.setCapability("takesScreenshot", true);
 		caps.setCapability("screen-resolution", "1280x1024");
+		caps.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
+		caps.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
+		caps.setCapability(CapabilityType.SUPPORTS_APPLICATION_CACHE, false);
 		caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "./resources/phantomjs.exe");
 		caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, cliArgsCap);
 		Utils.disableLogging(PhantomJSDriverService.class, RemoteWebDriver.class, Augmenter.class);
 		return DesiredCapabilities.phantomjs().merge(caps);
 	}
+
+	private static DesiredCapabilities proxyCapabilities() {
+		String proxyUrl = "localhost:8080";
+		DesiredCapabilities caps = desiredCapabilities();
+		caps.setCapability(CapabilityType.PROXY, getProxy(proxyUrl));
+
+		return caps;
+	}
+
+	public static Proxy getProxy(String proxyUrl) {
+		return new Proxy().setHttpProxy(proxyUrl).setFtpProxy(proxyUrl).setSslProxy(proxyUrl);
+	}
+
 }

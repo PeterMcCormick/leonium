@@ -18,7 +18,6 @@ public class MailDemo1 extends AbstractMailTrial {
 		homePage.login("username", "password");
 		web.click(homePage.byRecoverEmail);
 		web.navigateTo("https://service.mail.com/shareFeedback.html");
-
 		fillForm();
 	}
 

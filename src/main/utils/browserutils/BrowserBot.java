@@ -23,7 +23,6 @@ import main.gui.MyGui;
 import main.utils.Utils;
 
 public class BrowserBot {
-	public final MyGui brain = new MyGui();
 	private final WebDriver driver;
 	private final BrowserHandler web;
 	private final BrowserLogger logger;
@@ -32,27 +31,11 @@ public class BrowserBot {
 
 	public BrowserBot(BrowserHandler web) {
 		this.web = web;
-		this.logger = web.logger;
 		this.driver = web.driver;
-		this.actions = new Actions(web.driver);
+		this.logger = web.logger;
+		this.actions = new Actions(driver);
 		this.robot = getRobot();
 		new Listener().start();
-	}
-
-	public void activateScreen() {
-		// Store the current window handle
-		String currentWindowHandle = web.driver.getWindowHandle();
-
-		// run your javascript and alert code
-		((JavascriptExecutor) web.driver).executeScript("alert('Test')");
-		web.switchTo.alert().accept();
-
-		// Switch back to to the window using the handle saved earlier
-		web.switchTo.window(currentWindowHandle);
-	}
-
-	public void displayImage(File file) {
-		brain.setActiveElementImage(file.getAbsolutePath());
 	}
 
 	private Robot getRobot() {
@@ -79,7 +62,8 @@ public class BrowserBot {
 				String prevUrl = driver.getCurrentUrl();
 				while (true) {
 					String currentUrl = driver.getCurrentUrl();
-					if (!currentUrl.equals(prevUrl)) {
+					boolean urlChanged = !currentUrl.equals(prevUrl);
+					if (urlChanged) {
 						while (!web.getPageLoadState().equals("complete")) {
 							continue;
 						}

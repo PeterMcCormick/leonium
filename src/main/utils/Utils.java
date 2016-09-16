@@ -18,11 +18,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.apache.commons.exec.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -33,53 +36,6 @@ import org.springframework.core.type.filter.AssignableTypeFilter;
 import com.relevantcodes.extentreports.ExtentTest;
 
 public class Utils {
-
-	public static void main(String[] args) {
-		test();
-	}
-
-	public static void test() {
-		Object ranObj = "" + randint(9999);
-		printFields(ranObj);
-		for (Object obj : getFieldValues(ranObj, String.class)) {
-			print(obj.toString());
-		}
-	}
-
-	/**
-	 * @param object
-	 *            - object whose fields to access
-	 * @param fieldClass
-	 *            - type of field to retrieve
-	 * @return - ArrayList of values
-	 */
-	public static <T, E> ArrayList<E> getFieldValues(T object, Class<E> fieldClass) {
-		ArrayList<E> fields = new ArrayList<E>();
-		for (Field f : object.getClass().getDeclaredFields()) {
-			if (f.getType().equals(fieldClass)) {
-				try {
-					boolean defaultAccess = f.isAccessible();
-					E obj = fieldClass.cast(f.get(object));
-
-					f.setAccessible(true);
-					fields.add(obj);
-					f.setAccessible(defaultAccess);
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		return fields;
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <E> E[] toArray(List<E> list) {
-		return list.toArray((E[]) new Object[list.size()]);
-	}
 
 	public static <T> void changeField(T object, String fieldName, T fieldVal) {
 		try {
@@ -159,6 +115,36 @@ public class Utils {
 		return (((double) System.currentTimeMillis()) - t0) / 1000.0;
 	}
 
+	/**
+	 * @param object
+	 *            - object whose fields to access
+	 * @param fieldClass
+	 *            - type of field to retrieve
+	 * @return - ArrayList of values
+	 */
+	public static <T, E> ArrayList<E> getFieldValues(T object, Class<E> fieldClass) {
+		ArrayList<E> fields = new ArrayList<E>();
+		for (Field f : object.getClass().getDeclaredFields()) {
+			if (f.getType().equals(fieldClass)) {
+				try {
+					boolean defaultAccess = f.isAccessible();
+					E obj = fieldClass.cast(f.get(object));
+
+					f.setAccessible(true);
+					fields.add(obj);
+					f.setAccessible(defaultAccess);
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return fields;
+	}
+
 	public static <T> String getId(T obj) {
 		return obj.getClass().getSimpleName() + " - " + obj.hashCode();
 	}
@@ -175,11 +161,46 @@ public class Utils {
 		return linkHref;
 	}
 
+	public static String reverseString(String text) {
+		return new StringBuffer(text).reverse().toString();
+	}
+
+	public static void testThis() {
+		for (int i = 0; i < 10; i++) {
+			print(Utils.randint(0, 1) == 1);
+		}
+
+		for (int i = 0; i < 10; i++) {
+			print(randomCasing(randomAlphaNum()));
+		}
+	}
+
+	public static String randomCasing(String val) {
+		char[] chars = val.toCharArray();
+		for (int i = 0; i < chars.length; i++) {
+			if (Utils.randint(0, 1) == 1) {
+				chars[i] = Character.toUpperCase(chars[i]);
+			} else {
+				chars[i] = Character.toLowerCase(chars[i]);
+			}
+		}
+		return new String(chars);
+	}
+
+	public static String randomID() {
+		return UUID.randomUUID().toString();
+	}
+
+	// random alphanumeric string
+	public static String randomAlphaNum() {
+		return randomID().replace("-", "");
+	}
+
 	public static String getRandomString(int length) {
 		StringBuilder randomString = new StringBuilder();
-		long t0 = System.currentTimeMillis();
+		long t0 = System.nanoTime();
 		while (length > randomString.length()) {
-			randomString.append(getColumnVal(t0 + randint((int) t0 / 1000)));
+			randomString.append(getColumnVal(randint(Math.abs((int) t0 / 1000))));
 		}
 		return randomString.substring(0, Math.min(randomString.length(), length));
 	}
@@ -220,12 +241,22 @@ public class Utils {
 		return stackTraceElements[n];
 	}
 
+	public static void main(String[] args) {
+		// test();
+		testThis();
+	}
+
 	public static void makeMissingDirectories(String directory) {
 		try {
 			new File(directory).mkdirs();
 		} catch (Exception e) {
 			generalException(e);
 		}
+	}
+
+	// displays frame with specified output message
+	public static void messageBox(String message) {
+		JOptionPane.showMessageDialog(new JFrame("Output"), message);
 	}
 
 	public static void openFile(String fullpath) {
@@ -287,7 +318,7 @@ public class Utils {
 		return print("Elapsed Time: %s seconds", getElapsedTime(t0));
 	}
 
-	public static <T> void printFields(T object) {
+	public static <T> T printFields(T object) {
 		print("Printing field values of %s", getId(object));
 		for (Field field : object.getClass().getDeclaredFields()) {
 			try {
@@ -296,6 +327,7 @@ public class Utils {
 
 			}
 		}
+		return object;
 	}
 
 	public static ResultSet query(String sql) {
@@ -320,6 +352,15 @@ public class Utils {
 
 	public static int randint(int min, int max) {
 		return new Random().nextInt((max - min) + 1) + min;
+	}
+
+	@SafeVarargs
+	public static <T> T randomItem(T... args) {
+		return args[randint(args.length - 1)];
+	}
+
+	public static <T> T randomItem(List<T> list) {
+		return randomItem(Utils.toArray(list));
 	}
 
 	// removes all specified 'removable' characters from base String
@@ -373,6 +414,14 @@ public class Utils {
 		return true;
 	}
 
+	public static void test() {
+		Object ranObj = "" + randint(9999);
+		printFields(ranObj);
+		for (Object obj : getFieldValues(ranObj, String.class)) {
+			print(obj.toString());
+		}
+	}
+
 	public static boolean textEquals(String base, String... compares) {
 		for (String compare : compares) {
 			if (base.equals(compare)) {
@@ -380,6 +429,11 @@ public class Utils {
 			}
 		}
 		return false;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <E> E[] toArray(List<E> list) {
+		return list.toArray((E[]) new Object[list.size()]);
 	}
 
 	public static void wait(int seconds) {
@@ -405,11 +459,6 @@ public class Utils {
 			openFile(file.getAbsolutePath());
 		}
 		return file;
-	}
-
-	@SafeVarargs
-	public static <T> T randomItem(T... args) {
-		return args[randint(args.length - 1)];
 	}
 
 }

@@ -33,6 +33,7 @@ public abstract class AbstractTrial extends Thread {
 		this.remoteDriver = (RemoteWebDriver) driver;
 		this.logger = new BrowserLogger(getLoggerPath(), getClass(), driver);
 		this.web = new BrowserHandler(this);
+		web.deleteAllCookies();
 	}
 
 	public void run() {

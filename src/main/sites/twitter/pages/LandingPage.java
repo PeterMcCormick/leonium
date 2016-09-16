@@ -22,4 +22,9 @@ public class LandingPage extends AbstractPageObject {
 		web.sendKeys(byInputPassword, password);
 		web.click(byButtonLogin1);
 	}
+
+	public void goToSignUpPage() {
+		web.click(byButtonSignUp);
+		web.wait.forPageLoad();
+	}
 }
