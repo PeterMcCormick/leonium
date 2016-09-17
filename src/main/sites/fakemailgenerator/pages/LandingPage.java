@@ -6,7 +6,8 @@ import main.sites.AbstractPageObject;
 import main.sites.AbstractTrial;
 
 public class LandingPage extends AbstractPageObject {
-	public final By byMyEmail = By.id("cxtEmail");
+	public final By byMyEmail = By.id("cxtEmail");	
+	
 
 	public LandingPage(AbstractTrial runner) {
 		super(runner);

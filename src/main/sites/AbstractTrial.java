@@ -11,7 +11,7 @@ import main.utils.browserutils.browserwrappers.PhantomDriver;
 public abstract class AbstractTrial extends Thread {
 
 	protected boolean pass;
-	protected String url;
+	protected String initialUrl;
 
 	public final RemoteWebDriver remoteDriver;
 	public final WebDriver driver;
@@ -28,7 +28,7 @@ public abstract class AbstractTrial extends Thread {
 
 	public AbstractTrial(WebDriver driver, String url) {
 		this.pass = false;
-		this.url = url;
+		this.initialUrl = url;
 		this.driver = driver;
 		this.remoteDriver = (RemoteWebDriver) driver;
 		this.logger = new BrowserLogger(getLoggerPath(), getClass(), driver);
@@ -38,7 +38,7 @@ public abstract class AbstractTrial extends Thread {
 
 	public void run() {
 		try {
-			web.navigateTo(url);
+			web.navigateTo(initialUrl);
 			setup();
 			test();
 		} catch (Exception e) {

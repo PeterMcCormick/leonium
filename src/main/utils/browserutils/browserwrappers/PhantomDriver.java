@@ -22,27 +22,29 @@ public class PhantomDriver extends PhantomJSDriver {
 		System.setProperty("phantomjs.page.settings.userAgent", userAgent);
 	}
 
-	public PhantomDriver(DesiredCapabilities caps) {
+	private PhantomDriver(DesiredCapabilities caps) {
 		super(DesiredCapabilities.phantomjs().merge(caps));
+		this.setLogLevel(Level.OFF);
+		this.getErrorHandler().setIncludeServerErrors(false);
+		this.manage().window().maximize();
 	}
 
 	public PhantomDriver() {
-		super(Utils.printFields(proxyCapabilities()));
-		this.setLogLevel(Level.OFF);
-		getErrorHandler().setIncludeServerErrors(false);
-		manage().window().maximize();
-		Utils.printFields(this);
+		this(desiredCapabilities());
+	}
+
+	public PhantomDriver(String proxyDomain, String username, String password) {
+		this(proxyCapabilities(proxyDomain, username, password));
+
 	}
 
 	private static DesiredCapabilities desiredCapabilities() {
 		DesiredCapabilities caps = new DesiredCapabilities();
 		ArrayList<String> cliArgsCap = new ArrayList<String>();
 		cliArgsCap.add("--webdriver-loglevel=NONE");
-		cliArgsCap.add("--proxy=127.0.0.1:1024");
-		cliArgsCap.add("--proxy-auth=username:password");
-		cliArgsCap.add("--proxy-type=socks5");
 
 		caps.setJavascriptEnabled(true);
+		caps.setCapability("takesScreenshot", true);
 		caps.setCapability("screen-resolution", "1280x1024");
 		caps.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
 		caps.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
@@ -53,15 +55,21 @@ public class PhantomDriver extends PhantomJSDriver {
 		return DesiredCapabilities.phantomjs().merge(caps);
 	}
 
-	private static DesiredCapabilities proxyCapabilities() {
-		String proxyUrl = "localhost:8080";
+	private static DesiredCapabilities proxyCapabilities(String proxyDomain, String username, String password) {
+		ArrayList<String> cliArgsCap = new ArrayList<String>();
 		DesiredCapabilities caps = desiredCapabilities();
-		caps.setCapability(CapabilityType.PROXY, getProxy(proxyUrl));
 
+		cliArgsCap.add("--webdriver-loglevel=NONE");
+		cliArgsCap.add("--proxy=" + proxyDomain);
+		cliArgsCap.add(String.format("--proxy-auth=%s:%s", username, password));
+		cliArgsCap.add("--proxy-type=socks5");
+		caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, cliArgsCap);
+
+		caps.setCapability(CapabilityType.PROXY, getProxy(proxyDomain));
 		return caps;
 	}
 
-	public static Proxy getProxy(String proxyUrl) {
+	private static Proxy getProxy(String proxyUrl) {
 		return new Proxy().setHttpProxy(proxyUrl).setFtpProxy(proxyUrl).setSslProxy(proxyUrl);
 	}
 

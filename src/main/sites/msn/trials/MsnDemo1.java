@@ -15,7 +15,7 @@ public class MsnDemo1 extends AbstractMsnTrial {
 
 	@Override
 	protected void test() {
-		web.navigateTo(url);
+		web.navigateTo(initialUrl);
 		web.sendKeys(landingPage.bySearchBar, "Hello world!");
 		web.click(landingPage.byButtonSearch);
 		// web.wait.forPageLoad(30);

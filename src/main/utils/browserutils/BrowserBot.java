@@ -56,7 +56,6 @@ public class BrowserBot {
 	}
 
 	public class Listener extends Thread {
-
 		public void run() {
 			try {
 				String prevUrl = driver.getCurrentUrl();

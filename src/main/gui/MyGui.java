@@ -35,4 +35,5 @@ public class MyGui extends JFrame {
 		label.setIcon(new ImageIcon(filePath));
 		this.repaint();
 	}
+	
 }

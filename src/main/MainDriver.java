@@ -10,6 +10,7 @@ import main.sites.instagram.trials.IGTdemo1;
 import main.sites.mail.trials.MailDemo1;
 import main.sites.mail.trials.MailDemo2;
 import main.sites.msn.trials.MsnDemo1;
+import main.sites.thesaurus.trials.ThesaurusDemo0;
 import main.sites.throwawaymail.trials.TAMDemo0;
 import main.sites.twitter.trials.TwitterDemo0;
 import main.utils.Utils;
@@ -20,12 +21,13 @@ public class MainDriver {
 		try {
 			// twitterTest();
 			// throwAwayMailTest();
-			fakeMailGeneratorTest();
+			thesaurusTest0();
+			// fakeMailGeneratorTest();
 			// mailTest2b();
 			// fpTest();
 			// hnhhTest();
 			// mailTest1();
-			// msnTest();
+			 //msnTest();
 			// igTest();
 		} catch (Exception e) {
 			Utils.generalException(e);
@@ -34,6 +36,10 @@ public class MainDriver {
 
 	public static void fakeMailGeneratorTest() {
 		new FMGDemo0().run();
+	}
+
+	public static void thesaurusTest0() {
+		new ThesaurusDemo0().run();
 	}
 
 	public static void throwAwayMailTest() {
