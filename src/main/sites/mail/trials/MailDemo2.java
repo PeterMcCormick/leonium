@@ -2,14 +2,18 @@ package main.sites.mail.trials;
 
 import org.openqa.selenium.WebDriver;
 
-import main.sites.mail.MailTrial;
+import main.sites.mail.AbstractMailTrial;
 import main.utils.Utils;
 
-public class MailDemo2 extends MailTrial {
+public class MailDemo2 extends AbstractMailTrial {
 	private Long seed = System.nanoTime();
 	private String firstName = Utils.getColumnVal(seed);
 	private String lastName = Utils.getColumnVal(seed.hashCode() + this.hashCode());
 	private String desiredEmail = String.format("%s.%s_%s@email.com", firstName, lastName, seed);
+
+	public MailDemo2() {
+		super("http://mail.com/");
+	}
 
 	public MailDemo2(String url) {
 		super(url);
@@ -20,8 +24,8 @@ public class MailDemo2 extends MailTrial {
 	}
 
 	protected void setup() {
-		web.options.continueOnException.setEnabled(true);
-		web.setDefaultWait(5);
+		web.options.continueOnException.setValue(true);
+		web.options.defaultWait.setValue(5);
 	}
 
 	@Override

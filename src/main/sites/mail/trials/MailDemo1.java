@@ -2,9 +2,9 @@ package main.sites.mail.trials;
 
 import org.openqa.selenium.WebDriver;
 
-import main.sites.mail.MailTrial;
+import main.sites.mail.AbstractMailTrial;
 
-public class MailDemo1 extends MailTrial {
+public class MailDemo1 extends AbstractMailTrial {
 
 	public MailDemo1(String url) {
 		super(url);
@@ -18,7 +18,6 @@ public class MailDemo1 extends MailTrial {
 		homePage.login("username", "password");
 		web.click(homePage.byRecoverEmail);
 		web.navigateTo("https://service.mail.com/shareFeedback.html");
-
 		fillForm();
 	}
 

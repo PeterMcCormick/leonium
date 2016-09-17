@@ -75,7 +75,7 @@ public class BrowserWait {
 				we = driver.findElement(by);
 			}
 		} catch (NoSuchElementException | InvalidElementStateException e) {
-			if (!web.options.continueOnException.isEnabled()) {
+			if (!web.options.continueOnException.getValue()) {
 				throw e;
 			}
 		}
@@ -198,7 +198,6 @@ public class BrowserWait {
 	}
 
 	public WebElement forKeyable(By by, int waitSeconds) {
-		Utils.print("forKeyable(%s,%s)", by, waitSeconds);
 		boolean isKeyable = false;
 		long t0 = System.currentTimeMillis();
 

@@ -2,14 +2,14 @@ package main.sites.hotnewhiphop.pages;
 
 import org.openqa.selenium.By;
 
-import main.sites.PageObject;
-import main.sites.Trial;
+import main.sites.AbstractPageObject;
+import main.sites.AbstractTrial;
 
-public class HomePage extends PageObject {
+public class HomePage extends AbstractPageObject {
 	public final By bySongChart = By.cssSelector(".songChart");
 	public final By byButtonMoreSongs = By.cssSelector(".archive-button");
 
-	public HomePage(Trial runner) {
+	public HomePage(AbstractTrial runner) {
 		super(runner);
 	}
 }

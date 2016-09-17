@@ -1,18 +1,17 @@
 package main.sites.twitter.trials;
 
-import main.sites.twitter.TwitterTrial;
+import main.sites.twitter.AbstractTwitterTrial;
 
-public class TwitterDemo0 extends TwitterTrial {
+public class TwitterDemo0 extends AbstractTwitterTrial {
 
-	public TwitterDemo0(String url) {
-		super(url);
+	public TwitterDemo0() {
+		super("https://twitter.com/");
 	}
 
 	@Override
-	protected void test() {		
+	protected void test() {
 		landingPage.login("username", "password");
 		web.wait.forPageLoad();
-		logger.screenshotPage();
 		web.click(landingPage.byButtonLogin0);
 	}
 }

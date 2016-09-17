@@ -2,12 +2,12 @@ package main.sites.instagram.trials;
 
 import org.openqa.selenium.WebDriver;
 
-import main.sites.instagram.InstagramTrial;
+import main.sites.instagram.AbstractInstagramTrial;
 
-public class IGTdemo1 extends InstagramTrial {
+public class IGTdemo1 extends AbstractInstagramTrial {
 
-	public IGTdemo1(String url) {
-		super(url);
+	public IGTdemo1() {
+		super("https://www.instagram.com/");
 	}
 	public IGTdemo1(WebDriver driver, String url) {
 		super(driver, url);

@@ -2,10 +2,10 @@ package main.sites.friendproject.pages;
 
 import org.openqa.selenium.By;
 
-import main.sites.PageObject;
-import main.sites.Trial;
+import main.sites.AbstractPageObject;
+import main.sites.AbstractTrial;
 
-public class HomePage extends PageObject {
+public class HomePage extends AbstractPageObject {
 	public final By byInputEmail1 = By.xpath("(.//input[@name='email'])[1]");
 	public final By byInputPassword1 = By.xpath("(.//input[@name='password'])[1]");
 	public final By byButtonLogIn = By.cssSelector("input[value='Log In']");
@@ -16,7 +16,7 @@ public class HomePage extends PageObject {
 	public final By byInputPassword2 = By.xpath("(.//input[@name='password'])[2]");
 	public final By byButtonSignUp = By.cssSelector("input[@value='Sign Up']");
 
-	public HomePage(Trial runner) {
+	public HomePage(AbstractTrial runner) {
 		super(runner);
 	}
 

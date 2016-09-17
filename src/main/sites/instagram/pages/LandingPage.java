@@ -2,10 +2,10 @@ package main.sites.instagram.pages;
 
 import org.openqa.selenium.By;
 
-import main.sites.PageObject;
-import main.sites.instagram.InstagramTrial;
+import main.sites.AbstractPageObject;
+import main.sites.instagram.AbstractInstagramTrial;
 
-public class LandingPage extends PageObject {
+public class LandingPage extends AbstractPageObject {
 	public By login = By.linkText("Log in");
 	public By username = By.name("username");
 	public By password = By.name("password");
@@ -13,7 +13,7 @@ public class LandingPage extends PageObject {
 	public By loginerror = By.id("slfErrorAlert");
 	private String url;
 
-	public LandingPage(InstagramTrial trial) {
+	public LandingPage(AbstractInstagramTrial trial) {
 		super(trial);
 		this.url = trial.driver.getCurrentUrl();
 	}

@@ -34,7 +34,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.google.common.base.Function;
 
-import main.sites.Trial;
+import main.sites.AbstractTrial;
 import main.utils.Utils;
 
 public class BrowserHandler {
@@ -53,11 +53,11 @@ public class BrowserHandler {
 		this(null, null, -1);
 	}
 
-	public BrowserHandler(Trial validator) {
+	public BrowserHandler(AbstractTrial validator) {
 		this(validator, 15);
 	}
 
-	public BrowserHandler(Trial validator, int defaultWait) {
+	public BrowserHandler(AbstractTrial validator, int defaultWait) {
 		this(validator.driver, validator.logger, defaultWait);
 	}
 
@@ -65,7 +65,6 @@ public class BrowserHandler {
 		this(driver, logger, 15);
 	}
 
-	@SuppressWarnings("unchecked")
 	public BrowserHandler(WebDriver driver, BrowserLogger logger, int defaultWait) {
 		this.driver = driver;
 		this.logger = logger;
@@ -78,19 +77,20 @@ public class BrowserHandler {
 		this.bot = new BrowserBot(this);
 
 		options.defaultWait.setValue(defaultWait);
-		options.continueOnException.setEnabled(true);
+		options.continueOnException.setValue(true);
 	}
 
 	// click by byType
 	public boolean click(By by) {
-		return click(wait.forConditions(by, defaultWait, "presence", "visible", "enabled", "clickable", "stale"));
+		return click(wait.forConditions(by, options.defaultWait.getValue(), "presence", "visible", "enabled",
+				"clickable", "stale"));
 	}
 
 	// click by WebElement
 	public boolean click(WebElement we) {
 		boolean success = false;
 		try {
-			screenshotElement(we);
+			logScreenshotElement(we);
 			we.click();
 			success = true;
 		} catch (Exception e) {
@@ -188,7 +188,7 @@ public class BrowserHandler {
 
 	// return non-stale WebElement specified by byType
 	public WebElement getElement(By by) {
-		WebElement we = wait.forConditions(by, defaultWait, "presence", "stale");
+		WebElement we = wait.forConditions(by, options.defaultWait.getValue(), "presence", "stale");
 		logger.logMinorEvent(we != null, "Located element [" + webElementToString(we) + "]");
 		return we;
 	}
@@ -205,7 +205,7 @@ public class BrowserHandler {
 			try {
 				elements[i] = getElement(bys[i]);
 			} catch (Exception e) {
-				if (!options.continueOnException.isEnabled()) {
+				if (!options.continueOnException.getValue()) {
 					throw e;
 				}
 				logger.logException(e);
@@ -216,7 +216,7 @@ public class BrowserHandler {
 
 	// return list of WebElements with specified byType
 	public ArrayList<WebElement> getElements(By by) {
-		ArrayList<WebElement> elements = wait.forPresences(defaultWait, by);
+		ArrayList<WebElement> elements = wait.forPresences(options.defaultWait.getValue(), by);
 		int count = elements.size();
 		logger.logMinorEvent(count > 0, "Located " + count + " elements [" + by + "]");
 		return elements;
@@ -235,20 +235,21 @@ public class BrowserHandler {
 		WebElement[] elements = new WebElement[bys.length];
 		String parentWindow = driver.getWindowHandle();
 		TargetLocator switchTo = driver.switchTo();
+		int defaultWait = options.defaultWait.getValue();
 
 		for (String currentWindow : driver.getWindowHandles()) {
 			switchTo.window(currentWindow);
 			try {
 				wait.forUrlToContain(3, windowUrl);
 				if (driver.getCurrentUrl().contains(windowUrl)) {
-					setDefaultWait(3);
+					options.defaultWait.setValue(3);
 					elements = getElements(bys);
 				}
 			} catch (NoSuchElementException | TimeoutException e) {
 				continue;
 			}
 		}
-		setDefaultWait(defaultWait);
+		options.defaultWait.setValue(defaultWait);
 		switchTo.defaultContent();
 		switchTo.window(parentWindow);
 		return elements;
@@ -318,7 +319,7 @@ public class BrowserHandler {
 			text = we.getText();
 			String details = "Retrieved text from element [" + webElementToString(we) + "]";
 			logger.logMinorEvent(Utils.strsNotNull(text), details + "<br></u></strike><b>\"" + text + "\"</b>");
-			screenshotElement(we);
+			logScreenshotElement(we);
 		} catch (StaleElementReferenceException | NullPointerException e) {
 			logger.logException(e);
 		}
@@ -346,7 +347,7 @@ public class BrowserHandler {
 	}
 
 	public void highlightElement(By by) {
-		highlightElement(wait.forConditions(by, defaultWait, "presence", "visible"));
+		highlightElement(wait.forConditions(by, options.defaultWait.getValue(), "presence", "visible"));
 	}
 
 	public void highlightElement(WebElement we) {
@@ -357,7 +358,7 @@ public class BrowserHandler {
 	public void highlightElement(WebElement we, String color) {
 		String script = "arguments[0].style.border='3px solid %s'";
 		jse.executeScript(String.format(script, color), we);
-		screenshotElement(we);
+		logScreenshotElement(we);
 	}
 
 	public void highlightElements(By bys) {
@@ -372,7 +373,7 @@ public class BrowserHandler {
 			try {
 				highlightElement(getElement(bys[i]), colors[i % colors.length]);
 			} catch (NullPointerException npe) {
-				if (!options.continueOnException.isEnabled()) {
+				if (!options.continueOnException.getValue()) {
 					throw npe;
 				}
 				logger.logException(npe);
@@ -407,7 +408,7 @@ public class BrowserHandler {
 	public boolean navigateTo(String url) {
 		driver.get(url);
 		String details = "Successfully navigated to url '" + url + "'";
-		return logger.logMinorEvent(wait.forPageLoad(defaultWait), details);
+		return logger.logMinorEvent(wait.forPageLoad(options.defaultWait.getValue()), details);
 	}
 
 	// print all driver logs
@@ -439,10 +440,7 @@ public class BrowserHandler {
 				ImageIO.write(eleScreenshot, "png", screenshot);
 				file = new File(logger.getLoggerPath() + eleName + System.currentTimeMillis() + ".png");
 				FileUtils.copyFile(screenshot, file);
-				logger.logInfo(logger.getTest().addScreenCapture(file.getName()) + "<br>"
-						+ logger.colorTag("green", file.getName()));
 			} catch (UnhandledAlertException uae) {
-				bot.screenshotElement(we);
 			} catch (RasterFormatException e) {
 			} catch (Exception e) {
 				logger.logException(e);
@@ -451,13 +449,16 @@ public class BrowserHandler {
 		return file;
 	}
 
-	public File screenshotElementt(WebElement we) {
-		return bot.screenshotElement(we);
+	public void logScreenshotElement(WebElement we) {
+		File file = screenshotElement(we);
+		String filename = file.getName();
+		//bot.displayImage(file);
+		logger.logInfo(logger.getTest().addScreenCapture(filename) + "<br>" + logger.colorTag("green", filename));
 	}
 
 	// select by byType
 	public Select select(By by) {
-		return select(wait.forConditions(by, defaultWait, "visible", "enabled", "stale"));
+		return select(wait.forConditions(by, options.defaultWait.getValue(), "visible", "enabled", "stale"));
 	}
 
 	// select by WebElement
@@ -469,7 +470,7 @@ public class BrowserHandler {
 			logger.logException(e);
 		}
 		logger.logMinorEvent(select != null, "Selected [" + webElementToString(we) + "]");
-		screenshotElement(we);
+		logScreenshotElement(we);
 		return select;
 	}
 
@@ -488,12 +489,13 @@ public class BrowserHandler {
 			logger.logException(e);
 		}
 		logger.logMinorEvent(success, "Selected index \"" + index + "\" from [" + webElementToString(we) + "]");
-		screenshotElement(we);
+		logScreenshotElement(we);
 		return success;
 	}
 
 	public boolean selectByRandomIndex(By by) {
-		return selectByRandomIndex(wait.forConditions(by, defaultWait, "visible", "enabled", "stale"));
+		return selectByRandomIndex(
+				wait.forConditions(by, options.defaultWait.getValue(), "visible", "enabled", "stale"));
 	}
 
 	public boolean selectByRandomIndex(WebElement we) {
@@ -516,13 +518,13 @@ public class BrowserHandler {
 			logger.logException(e);
 		}
 		logger.logMinorEvent(success, "Selected \"" + visibleText + "\" from [" + webElementToString(we) + "]");
-		screenshotElement(we);
+		logScreenshotElement(we);
 		return success;
 	}
 
 	// send keys by byType
 	public boolean sendKeys(By by, CharSequence... keys) {
-		return sendKeys(wait.forKeyable(by, defaultWait), keys);
+		return sendKeys(wait.forKeyable(by, options.defaultWait.getValue()), keys);
 	}
 
 	// send keys by WebElement
@@ -539,7 +541,7 @@ public class BrowserHandler {
 				// NOTE** some input elements cannot be cleared
 				// this exception is caught when an unclearable element
 				// invokes the .clear() method
-				wait.forKeyable(toByVal(we), defaultWait);
+				wait.forKeyable(toByVal(we), options.defaultWait.getValue());
 			}
 			we.sendKeys(keys);
 			success = true;
@@ -548,18 +550,14 @@ public class BrowserHandler {
 				keysVal.append(cs);
 			}
 			logger.logMinorEvent(success, "Sent keys \"" + keysVal.toString() + "\" to [" + elem + "]");
-			screenshotElement(we);
+			logScreenshotElement(we);
 		} catch (Exception e) {
-			if (!options.continueOnException.isEnabled()) {
+			if (!options.continueOnException.getValue()) {
 				throw e;
 			}
 			logger.logException(e);
 		}
 		return success;
-	}
-
-	public void setDefaultWait(int waitSeconds) {
-		this.defaultWait = waitSeconds;
 	}
 
 	// switch to pop up and return parent window handler

@@ -1,11 +1,11 @@
 package main.sites.youtube.pages;
 
-import main.sites.PageObject;
-import main.sites.Trial;
+import main.sites.AbstractPageObject;
+import main.sites.AbstractTrial;
 
-public class HomePage extends PageObject {
+public class HomePage extends AbstractPageObject {
 
-	public HomePage(Trial runner) {
+	public HomePage(AbstractTrial runner) {
 		super(runner);
 	}
 }
