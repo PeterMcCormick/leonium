@@ -1,5 +1,7 @@
 package main.sites;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -33,6 +35,7 @@ public abstract class AbstractTrial extends Thread {
 		this.remoteDriver = (RemoteWebDriver) driver;
 		this.logger = new BrowserLogger(getLoggerPath(), getClass(), driver);
 		this.web = new BrowserHandler(this);
+		web.options.defaultWait.setValue(0);
 	}
 
 	public void run() {
@@ -40,6 +43,7 @@ public abstract class AbstractTrial extends Thread {
 			web.navigateTo(url);
 			setup();
 			test();
+			pass = true;
 		} catch (Exception e) {
 			logger.logException(e);
 		} finally {
@@ -54,6 +58,7 @@ public abstract class AbstractTrial extends Thread {
 	public void tearDown() {
 		try {
 			logger.logInfo("Tearing down test...");
+			logger.logCriticalEvent(pass);
 			logger.endTest();
 			Utils.openFile(getLoggerPath() + "/Result.html");
 			driver.quit();

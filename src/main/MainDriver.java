@@ -1,10 +1,6 @@
 package main;
 
-import java.util.Arrays;
-
 import org.openqa.selenium.firefox.FirefoxDriver;
-
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import main.sites.AbstractTrial;
 import main.sites.friendproject.trials.FPDemo1;
@@ -21,10 +17,10 @@ public class MainDriver {
 	public static void main(String[] args) {
 		try {
 			// twitterTest();
-			mailTest2b();
+			// mailTest2b();
 			// fpTest();
 			// hnhhTest();
-			// mailTest1();
+			mailTest1();
 			// msnTest();
 			// igTest();
 		} catch (Exception e) {
@@ -37,7 +33,7 @@ public class MainDriver {
 	}
 
 	public static void hnhhTest() {
-		new HNHdemo1("http://www.hotnewhiphop.com/").run();
+		new HNHdemo1().run();
 	}
 
 	public static void igTest() {
