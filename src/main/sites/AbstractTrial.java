@@ -73,7 +73,6 @@ public abstract class AbstractTrial extends Thread {
 	}
 
 	private String getLoggerPath(String root, String... paths) {
-
 		StringBuilder subRoot = new StringBuilder();
 		for (String path : paths) {
 			subRoot.append("/" + path);
