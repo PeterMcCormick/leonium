@@ -248,8 +248,8 @@ public class BrowserWaitt {
 				}
 				return true;
 			} catch (UnhandledAlertException | TimeoutException e) {
-				if (web.options.continueOnException.getValue()) {
-					logger.logException(e);
+				if (web.options.continueOnNoSuchElement.getValue()) {
+					logger.logStackTrace(e);
 					return false;
 				}
 				throw e;

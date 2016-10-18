@@ -35,6 +35,7 @@ import org.openqa.selenium.support.ui.Select;
 import com.google.common.base.Function;
 
 import main.sites.AbstractTrial;
+import main.sites.smartystreets.pages.DemoPage;
 import main.utils.Utils;
 
 public class BrowserHandler {
@@ -77,57 +78,42 @@ public class BrowserHandler {
 		this.bot = new BrowserBot(this);
 
 		options.defaultWait.setValue(defaultWait);
-		options.continueOnException.setValue(true);
+		options.continueOnNoSuchElement.setValue(false);
+		options.continueOnTimeout.setValue(false);
 	}
 
 	// click by byType
-	public boolean click(By by) {
-		return click(wait.forConditions(by, options.defaultWait.getValue(), "presence", "visible", "enabled",
-				"clickable", "stale"));
+	public void click(By by) {
+		click(wait.forConditions(by, options.defaultWait.getValue(), "presence", "visible", "enabled", "clickable",
+				"stale"));
 	}
 
 	// click by WebElement
-	public boolean click(WebElement we) {
-		boolean success = false;
-		try {
-			screenshotElement(we);
-			we.click();
-			success = true;
-		} catch (Exception e) {
-			logger.logException(e);
-		}
-		return logger.logMinorEvent(success, "Clicked [" + webElementToString(we) + "]");
+	public void click(WebElement we) {
+		screenshotElement(we);
+		we.click();
+		logger.logInfo("Clicked [" + webElementToString(we) + "]");
 	}
 
 	// switch to and close pop up
 	public void closePopup() {
-		try {
-			String parent = switchToPopup();
-			logger.logInfo("Closing window: [" + driver.getCurrentUrl() + "]");
-			switchTo.alert().dismiss();
-			switchTo.window(parent);
-		} catch (Exception e) {
-			logger.logException(e);
-		}
+		String parent = switchToPopup();
+		logger.logInfo("Closing window: [" + driver.getCurrentUrl() + "]");
+		switchTo.alert().dismiss();
+		switchTo.window(parent);
 	}
 
 	// switch to and close all pop ups
 	public void closePopups() {
-		try {
-			TargetLocator target = driver.switchTo();
-			String parent = driver.getWindowHandle();
-			Iterator<String> handles = driver.getWindowHandles().iterator();
-			while (handles.hasNext()) {
-				String next = handles.next();
-				target.window(next);
-				Utils.print("Closing window: [" + driver.getTitle() + "]\n<br />[" + driver.getCurrentUrl() + "]");
-				target.window(next).close();
-			}
-			target.window(parent);
-
-		} catch (Exception e) {
-			logger.logException(e);
+		String parent = driver.getWindowHandle();
+		Iterator<String> handles = driver.getWindowHandles().iterator();
+		while (handles.hasNext()) {
+			String next = handles.next();
+			switchTo.window(next);
+			Utils.print("Closing window: [" + driver.getTitle() + "]\n<br />[" + driver.getCurrentUrl() + "]");
+			switchTo.window(next).close();
 		}
+		switchTo.window(parent);
 	}
 
 	// deletes all cached cookies and logs each deletion
@@ -160,24 +146,6 @@ public class BrowserHandler {
 		return switchTo.activeElement();
 	}
 
-	// retrieve value of specified attribute from specified By selector
-	public String getAttributeValue(By by, String attribute) {
-		return getAttributeValue(getElement(by), attribute);
-	}
-
-	// retrieve value of specified attribute from specified Web Element
-	public String getAttributeValue(WebElement we, String attribute) {
-		String val = null;
-		try {
-			val = we.getAttribute(attribute);
-		} catch (WebDriverException ster) {
-			val = getElement(toByVal(we)).getAttribute(attribute);
-		} catch (Exception e) {
-			logger.logException(e);
-		}
-		return val;
-	}
-
 	// return browser and version of currently instantiated driver
 	public String getBrowserAndVersion() {
 		Capabilities capabilities = ((RemoteWebDriver) driver).getCapabilities();
@@ -202,14 +170,7 @@ public class BrowserHandler {
 		int n = bys.length;
 		WebElement[] elements = new WebElement[n];
 		for (int i = 0; i < n; i++) {
-			try {
-				elements[i] = getElement(bys[i]);
-			} catch (Exception e) {
-				if (!options.continueOnException.getValue()) {
-					throw e;
-				}
-				logger.logException(e);
-			}
+			elements[i] = getElement(bys[i]);
 		}
 		return elements;
 	}
@@ -315,14 +276,10 @@ public class BrowserHandler {
 	// retrieve text of WebElement
 	public String getText(WebElement we) {
 		String text = null;
-		try {
-			text = we.getText();
-			String details = "Retrieved text from element [" + webElementToString(we) + "]";
-			logger.logMinorEvent(Utils.strsNotNull(text), details + "<br></u></strike><b>\"" + text + "\"</b>");
-			screenshotElement(we);
-		} catch (StaleElementReferenceException | NullPointerException e) {
-			logger.logException(e);
-		}
+		text = we.getText();
+		String details = "Retrieved text from element [" + webElementToString(we) + "]";
+		logger.logMinorEvent(Utils.strsNotNull(text), details + "<br></u></strike><b>\"" + text + "\"</b>");
+		screenshotElement(we);
 		return text;
 	}
 
@@ -370,14 +327,7 @@ public class BrowserHandler {
 	public void highlightElements(By... bys) {
 		String[] colors = { "red", "green", "blue", "orange", "yellow", "purple", "cyan", "black" };
 		for (int i = 0; i < bys.length; i++) {
-			try {
-				highlightElement(getElement(bys[i]), colors[i % colors.length]);
-			} catch (NullPointerException npe) {
-				if (!options.continueOnException.getValue()) {
-					throw npe;
-				}
-				logger.logException(npe);
-			}
+			highlightElement(getElement(bys[i]), colors[i % colors.length]);
 		}
 	}
 
@@ -426,6 +376,10 @@ public class BrowserHandler {
 		}
 	}
 
+	public void screenshotElement(By by) {
+		screenshotElement(getElement(by));
+	}
+
 	public File screenshotElement(WebElement we) {
 		File file = null;
 		if (we.isDisplayed()) {
@@ -446,14 +400,9 @@ public class BrowserHandler {
 				bot.screenshotElement(we);
 			} catch (RasterFormatException e) {
 			} catch (Exception e) {
-				logger.logException(e);
 			}
 		}
 		return file;
-	}
-
-	public File screenshotElementt(WebElement we) {
-		return bot.screenshotElement(we);
 	}
 
 	// select by byType
@@ -463,101 +412,69 @@ public class BrowserHandler {
 
 	// select by WebElement
 	public Select select(WebElement we) {
-		Select select = null;
-		try {
-			select = new Select(we);
-		} catch (Exception e) {
-			logger.logException(e);
-		}
+		Select select = new Select(we);
 		logger.logMinorEvent(select != null, "Selected [" + webElementToString(we) + "]");
 		screenshotElement(we);
 		return select;
 	}
 
-	public boolean selectByIndex(By by, int index) {
-		return selectByIndex(getElement(by), index);
-
+	public void selectByIndex(By by, int index) {
+		selectByIndex(getElement(by), index);
 	}
 
 	// select by WebElement and select index option
-	public boolean selectByIndex(WebElement we, int index) {
-		boolean success = false;
-		try {
-			select(we).selectByIndex(index);
-			success = true;
-		} catch (Exception e) {
-			logger.logException(e);
-		}
-		logger.logMinorEvent(success, "Selected index \"" + index + "\" from [" + webElementToString(we) + "]");
+	public void selectByIndex(WebElement we, int index) {
+		select(we).selectByIndex(index);
+		logger.logMinorEvent(true, "Selected index \"" + index + "\" from [" + webElementToString(we) + "]");
 		screenshotElement(we);
-		return success;
 	}
 
-	public boolean selectByRandomIndex(By by) {
-		return selectByRandomIndex(
-				wait.forConditions(by, options.defaultWait.getValue(), "visible", "enabled", "stale"));
+	public void selectByRandomIndex(By by) {
+		selectByRandomIndex(wait.forConditions(by, options.defaultWait.getValue(), "visible", "enabled", "stale"));
 	}
 
-	public boolean selectByRandomIndex(WebElement we) {
+	public void selectByRandomIndex(WebElement we) {
 		Select select = new Select(we);
-		return select == null ? false : selectByIndex(we, select.getOptions().size() - 1);
+		selectByIndex(we, select.getOptions().size() - 1);
 	}
 
 	// select visible option by ByType
-	public boolean selectByVisibleText(By by, String visibleText) {
-		return selectByVisibleText(getElement(by), visibleText);
+	public void selectByVisibleText(By by, String visibleText) {
+		selectByVisibleText(getElement(by), visibleText);
 	}
 
 	// select by WebElement and select visible text
-	public boolean selectByVisibleText(WebElement we, String visibleText) {
-		boolean success = false;
-		try {
-			select(we).selectByVisibleText(visibleText);
-			success = true;
-		} catch (Exception e) {
-			logger.logException(e);
-		}
-		logger.logMinorEvent(success, "Selected \"" + visibleText + "\" from [" + webElementToString(we) + "]");
+	public void selectByVisibleText(WebElement we, String visibleText) {
+		select(we).selectByVisibleText(visibleText);
+		logger.logInfo("Selected \"" + visibleText + "\" from [" + webElementToString(we) + "]");
 		screenshotElement(we);
-		return success;
 	}
 
 	// send keys by byType
-	public boolean sendKeys(By by, CharSequence... keys) {
-		return sendKeys(wait.forKeyable(by, options.defaultWait.getValue()), keys);
+	public void sendKeys(By by, CharSequence... keys) {
+		sendKeys(wait.forKeyable(by, options.defaultWait.getValue()), keys);
 	}
 
 	// send keys by WebElement
-	public boolean sendKeys(WebElement we, CharSequence... keys) {
-		StringBuilder keysVal = new StringBuilder();
-		String elem = webElementToString(we);
-
-		boolean success = false;
-		try {
-			try {
-				we.clear();
-				we.sendKeys(Keys.HOME);
-			} catch (InvalidElementStateException iese) {
-				// NOTE** some input elements cannot be cleared
-				// this exception is caught when an unclearable element
-				// invokes the .clear() method
-				wait.forKeyable(toByVal(we), options.defaultWait.getValue());
-			}
-			we.sendKeys(keys);
-			success = true;
-
-			for (CharSequence cs : keys) {
-				keysVal.append(cs);
-			}
-			logger.logMinorEvent(success, "Sent keys \"" + keysVal.toString() + "\" to [" + elem + "]");
-			screenshotElement(we);
-		} catch (Exception e) {
-			if (!options.continueOnException.getValue()) {
-				throw e;
-			}
-			logger.logException(e);
+	public void sendKeys(WebElement we, CharSequence... keys) {
+		if (keys == null || !Utils.strsNotNull(Utils.toString(keys))) {
+			return;
 		}
-		return success;
+		String elem = webElementToString(we);
+		try {
+			we.clear();
+			we.sendKeys(Keys.HOME);
+		} catch (InvalidElementStateException iese) {
+			// NOTE** some input elements cannot be cleared
+			// this exception is caught when an unclearable element
+			// invokes the .clear() method
+			wait.forKeyable(toByVal(we), options.defaultWait.getValue());
+		}
+		we.sendKeys(keys);
+
+		logger.logInfo("Sent keys \"" + Utils.toString(keys) + "\" to [" + elem + "]");
+		screenshotElement(we);
+
 	}
 
 	// switch to pop up and return parent window handler
@@ -613,11 +530,6 @@ public class BrowserHandler {
 
 	// return string representation of WebElement (handles links)
 	public String webElementToString(WebElement we) {
-		try {
-			return webElementToString(we.toString());
-		} catch (Exception e) {
-			logger.logException(e);
-			return null;
-		}
+		return webElementToString(we.toString());
 	}
 }

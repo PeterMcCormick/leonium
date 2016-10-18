@@ -2,12 +2,12 @@ package main.sites.mail.pages;
 
 import org.openqa.selenium.By;
 
-import main.sites.AbstractPageObject;
+import main.sites.PageObject;
 import main.sites.AbstractTrial;
 import main.utils.Utils;
 import main.utils.browserutils.BrowserLogger;
 
-public class SignUpPage extends AbstractPageObject {
+public class SignUpPage extends PageObject {
 	public By byInputFirstName = By.xpath("(.//input)[2]");
 	public By byInputLastName = By.xpath("(.//input)[3]");
 	public By byInputDesiredEmail = By.xpath("(.//input)[4]");

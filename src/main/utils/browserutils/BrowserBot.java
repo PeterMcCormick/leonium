@@ -79,7 +79,7 @@ public class BrowserBot {
 		try {
 			ImageIO.write(bi, "png", file);
 		} catch (IOException e) {
-			logger.logException(e);
+			logger.logStackTrace(e);
 		}
 		return file;
 	}
@@ -89,7 +89,7 @@ public class BrowserBot {
 		try {
 			rwd.getCommandExecutor().execute(new Command(rwd.getSessionId(), DriverCommand.ELEMENT_SCREENSHOT));
 		} catch (IOException e) {
-			logger.logException(e);
+			logger.logStackTrace(e);
 		}
 
 	}

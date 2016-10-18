@@ -4,7 +4,8 @@ public class BrowserHandlerOptions {
 	public final BrowserOption<Boolean> screenshotOnClick = new BrowserOption<Boolean>();
 	public final BrowserOption<Boolean> screenshotOnSelect = new BrowserOption<Boolean>();
 	public final BrowserOption<Boolean> screenshotOnSendKeys = new BrowserOption<Boolean>();
-	public final BrowserOption<Boolean> continueOnException = new BrowserOption<Boolean>();
+	public final BrowserOption<Boolean> continueOnNoSuchElement = new BrowserOption<Boolean>();
+	public final BrowserOption<Boolean> continueOnTimeout = new BrowserOption<Boolean>();
 	public final BrowserOption<Boolean> logOnWait = new BrowserOption<Boolean>();
 	public final BrowserOption<Boolean> logAutonomously = new BrowserOption<Boolean>();
 	public final BrowserOption<Integer> defaultWait = new BrowserOption<Integer>(15);

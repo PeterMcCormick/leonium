@@ -45,7 +45,7 @@ public abstract class AbstractTrial extends Thread {
 			test();
 			pass = true;
 		} catch (Exception e) {
-			logger.logException(e);
+			logger.logStackTrace(e);
 		} finally {
 			tearDown();
 		}

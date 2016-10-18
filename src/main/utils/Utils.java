@@ -368,7 +368,7 @@ public class Utils {
 
 	public static boolean strsNotNull(String... strs) {
 		for (String str : strs)
-			if ("".equals(str) || str == null)
+			if (str == null || "".equals(str) || "null".equals(str.toLowerCase()))
 				return false;
 		return true;
 	}
@@ -410,6 +410,15 @@ public class Utils {
 	@SafeVarargs
 	public static <T> T randomItem(T... args) {
 		return args[randint(args.length - 1)];
+	}
+
+	@SafeVarargs
+	public static <T> String toString(T... vals) {
+		StringBuilder sb = new StringBuilder();
+		for (T val : vals) {
+			sb.append(val);
+		}
+		return sb.toString();
 	}
 
 }

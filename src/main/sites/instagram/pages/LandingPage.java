@@ -2,10 +2,10 @@ package main.sites.instagram.pages;
 
 import org.openqa.selenium.By;
 
-import main.sites.AbstractPageObject;
+import main.sites.PageObject;
 import main.sites.instagram.AbstractInstagramTrial;
 
-public class LandingPage extends AbstractPageObject {
+public class LandingPage extends PageObject {
 	public By login = By.linkText("Log in");
 	public By username = By.name("username");
 	public By password = By.name("password");

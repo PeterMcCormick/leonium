@@ -9,6 +9,7 @@ import main.sites.instagram.trials.IGTdemo1;
 import main.sites.mail.trials.MailDemo1;
 import main.sites.mail.trials.MailDemo2;
 import main.sites.msn.trials.MsnDemo1;
+import main.sites.smartystreets.trials.SmartyStreetDemo0;
 import main.sites.twitter.trials.TwitterDemo0;
 import main.utils.Utils;
 
@@ -20,12 +21,17 @@ public class MainDriver {
 			// mailTest2b();
 			// fpTest();
 			// hnhhTest();
-			mailTest1();
+			smartyStreetTest();
+			// mailTest1();
 			// msnTest();
 			// igTest();
 		} catch (Exception e) {
 			Utils.generalException(e);
 		}
+	}
+
+	public static void smartyStreetTest() {
+		new SmartyStreetDemo0().run();
 	}
 
 	public static void fpTest() {

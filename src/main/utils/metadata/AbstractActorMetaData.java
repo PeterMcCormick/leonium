@@ -31,6 +31,10 @@ public abstract class AbstractActorMetaData {
 		this.socialSecurityNumber = socialSecurityNumber;
 	}
 
+	@SuppressWarnings("unused")
+	private AbstractActorMetaData() {
+	}
+
 	public String getAddressLine1() {
 		return addressLine1;
 	}
