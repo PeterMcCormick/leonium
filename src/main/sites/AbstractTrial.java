@@ -1,7 +1,5 @@
 package main.sites;
 
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -24,6 +22,10 @@ public abstract class AbstractTrial extends Thread {
 	protected static final String home = System.getProperty("user.home");
 	protected static final String name = System.getProperty("user.name");
 
+	public AbstractTrial(AbstractTrial trial, String url) {
+		this(trial.driver, url);
+	}
+
 	public AbstractTrial(String url) {
 		this(new PhantomDriver(), url);
 	}
@@ -34,8 +36,20 @@ public abstract class AbstractTrial extends Thread {
 		this.driver = driver;
 		this.remoteDriver = (RemoteWebDriver) driver;
 		this.logger = new BrowserLogger(getLoggerPath(), getClass(), driver);
-		this.web = new BrowserHandler(this);
-		web.options.defaultWait.setValue(0);
+		this.web = new BrowserHandler(driver, logger, 15);
+	}
+
+	public AbstractTrial(WebDriver driver, BrowserLogger logger, String url) {
+		this.pass = false;
+		this.url = url;
+		this.driver = driver;
+		this.logger = logger;
+		this.remoteDriver = (RemoteWebDriver) driver;
+		this.web = new BrowserHandler(driver, logger, 15);
+	}
+
+	public AbstractTrial(BrowserHandler web, String url) {
+		this(web.driver, web.logger, url);
 	}
 
 	public void run() {
@@ -45,6 +59,7 @@ public abstract class AbstractTrial extends Thread {
 			test();
 			pass = true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.logStackTrace(e);
 		} finally {
 			tearDown();
@@ -60,7 +75,7 @@ public abstract class AbstractTrial extends Thread {
 			logger.logInfo("Tearing down test...");
 			logger.logCriticalEvent(pass);
 			logger.endTest();
-			Utils.openFile(getLoggerPath() + "/Result.html");
+			Utils.openFile(getLoggerPath() + "Result.html");
 			driver.quit();
 		} catch (Exception e) {
 			Utils.generalException(e);

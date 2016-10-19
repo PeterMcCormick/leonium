@@ -135,7 +135,7 @@ public class BrowserWait {
 	}
 
 	public boolean forPageLoad() {
-		return forPageLoad((int) web.options.defaultWait.getValue());
+		return forPageLoad(web.options.defaultWait.getValue());
 	}
 
 	public boolean forPageState(int waitSeconds, String state) {

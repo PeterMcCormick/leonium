@@ -421,4 +421,8 @@ public class Utils {
 		return sb.toString();
 	}
 
+	public static String affirmate(boolean b) {
+		return b ? "Yes" : "No";
+	}
+
 }

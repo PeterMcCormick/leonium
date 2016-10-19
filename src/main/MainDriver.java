@@ -3,6 +3,7 @@ package main;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import main.sites.AbstractTrial;
+import main.sites.addressgenerator.trials.AddressGeneratorDemo0;
 import main.sites.friendproject.trials.FPDemo1;
 import main.sites.hotnewhiphop.trials.HNHdemo1;
 import main.sites.instagram.trials.IGTdemo1;
@@ -22,12 +23,17 @@ public class MainDriver {
 			// fpTest();
 			// hnhhTest();
 			smartyStreetTest();
+			// addressGeneratorTest();
 			// mailTest1();
 			// msnTest();
 			// igTest();
 		} catch (Exception e) {
 			Utils.generalException(e);
 		}
+	}
+
+	public static void addressGeneratorTest() {
+		new AddressGeneratorDemo0().run();
 	}
 
 	public static void smartyStreetTest() {

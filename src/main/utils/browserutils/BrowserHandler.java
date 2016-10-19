@@ -78,6 +78,10 @@ public class BrowserHandler {
 		this.bot = new BrowserBot(this);
 
 		options.defaultWait.setValue(defaultWait);
+		options.screenshotOnClick.setValue(true);
+		options.screenshotOnSendKeys.setValue(true);
+		options.screenshotOnSelect.setValue(true);
+		options.screenshotOnEvent.setValue(true);;
 		options.continueOnNoSuchElement.setValue(false);
 		options.continueOnTimeout.setValue(false);
 	}
@@ -90,7 +94,9 @@ public class BrowserHandler {
 
 	// click by WebElement
 	public void click(WebElement we) {
-		screenshotElement(we);
+		if (options.screenshotOnClick.getValue()) {
+			screenshotElement(we);
+		}
 		we.click();
 		logger.logInfo("Clicked [" + webElementToString(we) + "]");
 	}
@@ -380,7 +386,7 @@ public class BrowserHandler {
 		screenshotElement(getElement(by));
 	}
 
-	public File screenshotElement(WebElement we) {
+	public void screenshotElement(WebElement we) {
 		File file = null;
 		if (we.isDisplayed()) {
 			try {
@@ -402,7 +408,6 @@ public class BrowserHandler {
 			} catch (Exception e) {
 			}
 		}
-		return file;
 	}
 
 	// select by byType
@@ -414,7 +419,9 @@ public class BrowserHandler {
 	public Select select(WebElement we) {
 		Select select = new Select(we);
 		logger.logMinorEvent(select != null, "Selected [" + webElementToString(we) + "]");
-		screenshotElement(we);
+		if (options.screenshotOnSelect.getValue()) {
+			screenshotElement(we);
+		}
 		return select;
 	}
 
@@ -426,7 +433,9 @@ public class BrowserHandler {
 	public void selectByIndex(WebElement we, int index) {
 		select(we).selectByIndex(index);
 		logger.logMinorEvent(true, "Selected index \"" + index + "\" from [" + webElementToString(we) + "]");
-		screenshotElement(we);
+		if (options.screenshotOnSelect.getValue()) {
+			screenshotElement(we);
+		}
 	}
 
 	public void selectByRandomIndex(By by) {
@@ -446,8 +455,10 @@ public class BrowserHandler {
 	// select by WebElement and select visible text
 	public void selectByVisibleText(WebElement we, String visibleText) {
 		select(we).selectByVisibleText(visibleText);
-		logger.logInfo("Selected \"" + visibleText + "\" from [" + webElementToString(we) + "]");
-		screenshotElement(we);
+		logger.logMinorEvent(true, "Selected \"" + visibleText + "\" from [" + webElementToString(we) + "]");
+		if (options.screenshotOnSelect.getValue()) {
+			screenshotElement(we);
+		}
 	}
 
 	// send keys by byType
@@ -473,8 +484,9 @@ public class BrowserHandler {
 		we.sendKeys(keys);
 
 		logger.logInfo("Sent keys \"" + Utils.toString(keys) + "\" to [" + elem + "]");
-		screenshotElement(we);
-
+		if (options.screenshotOnClick.getValue()) {
+			screenshotElement(we);
+		}
 	}
 
 	// switch to pop up and return parent window handler

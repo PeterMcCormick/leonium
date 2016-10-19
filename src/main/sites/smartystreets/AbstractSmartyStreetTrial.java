@@ -9,7 +9,7 @@ import main.utils.metadata.ActorMetaData;
 public abstract class AbstractSmartyStreetTrial extends AbstractTrial {
 	protected final LandingPage landingPage = new LandingPage(this);
 	protected final DemoPage demoPage = new DemoPage(this);
-	protected final ActorMetaData actor = ActorFactory.getDefaultActor();
+	protected final ActorMetaData actor = ActorFactory.getLiveActor(web);
 
 	public AbstractSmartyStreetTrial(String url) {
 		super(url);
