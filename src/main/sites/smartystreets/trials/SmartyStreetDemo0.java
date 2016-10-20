@@ -1,9 +1,7 @@
 package main.sites.smartystreets.trials;
 
-import main.sites.addressgenerator.trials.AddressGeneratorDemo0;
 import main.sites.smartystreets.AbstractSmartyStreetTrial;
 import main.sites.smartystreets.pages.DemoPage;
-import main.utils.Utils;
 
 public class SmartyStreetDemo0 extends AbstractSmartyStreetTrial {
 
@@ -14,7 +12,7 @@ public class SmartyStreetDemo0 extends AbstractSmartyStreetTrial {
 	@Override
 	protected void setup() {
 		web.options.screenshotOnEvent.setValue(false);
-		web.options.defaultWait.setValue(50);
+		web.options.defaultWait.setValue(60);
 	}
 
 	protected void test() {
@@ -23,6 +21,7 @@ public class SmartyStreetDemo0 extends AbstractSmartyStreetTrial {
 		demoPage.selectService("us");
 		demoPage.enterDetails(actor.getAddressLine1(), actor.getCity(), actor.getState(), actor.getZipcode());
 		web.click(DemoPage.USView.byButtonSubmit);
+		web.options.defaultWait.setValue(60);
 		web.wait.forPageLoad();
 		web.screenshotElement(DemoPage.USView.bySpanMatchCount);
 		logger.screenshotPage();
