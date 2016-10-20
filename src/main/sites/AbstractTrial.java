@@ -22,6 +22,10 @@ public abstract class AbstractTrial extends Thread {
 	protected static final String home = System.getProperty("user.home");
 	protected static final String name = System.getProperty("user.name");
 
+	public AbstractTrial(AbstractTrial trial, String url) {
+		this(trial.driver, url);
+	}
+
 	public AbstractTrial(String url) {
 		this(new PhantomDriver(), url);
 	}
@@ -36,13 +40,28 @@ public abstract class AbstractTrial extends Thread {
 		web.deleteAllCookies();
 	}
 
+	public AbstractTrial(WebDriver driver, BrowserLogger logger, String url) {
+		this.pass = false;
+		this.initialUrl = url;
+		this.driver = driver;
+		this.logger = logger;
+		this.remoteDriver = (RemoteWebDriver) driver;
+		this.web = new BrowserHandler(driver, logger, 15);
+	}
+
+	public AbstractTrial(BrowserHandler web, String url) {
+		this(web.driver, web.logger, url);
+	}
+
 	public void run() {
 		try {
 			web.navigateTo(initialUrl);
 			setup();
 			test();
+			pass = true;
 		} catch (Exception e) {
-			logger.logException(e);
+			e.printStackTrace();
+			logger.logStackTrace(e);
 		} finally {
 			tearDown();
 		}
@@ -55,8 +74,9 @@ public abstract class AbstractTrial extends Thread {
 	public void tearDown() {
 		try {
 			logger.logInfo("Tearing down test...");
+			logger.logCriticalEvent(pass);
 			logger.endTest();
-			Utils.openFile(getLoggerPath() + "/Result.html");
+			Utils.openFile(getLoggerPath() + "Result.html");
 			driver.quit();
 		} catch (Exception e) {
 			Utils.generalException(e);
@@ -69,7 +89,6 @@ public abstract class AbstractTrial extends Thread {
 	}
 
 	private String getLoggerPath(String root, String... paths) {
-
 		StringBuilder subRoot = new StringBuilder();
 		for (String path : paths) {
 			subRoot.append("/" + path);

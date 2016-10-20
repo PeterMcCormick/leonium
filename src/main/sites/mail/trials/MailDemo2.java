@@ -24,7 +24,7 @@ public class MailDemo2 extends AbstractMailTrial {
 	}
 
 	protected void setup() {
-		web.options.continueOnException.setValue(true);
+		web.options.continueOnNoSuchElement.setValue(true);
 		web.options.defaultWait.setValue(5);
 	}
 
@@ -36,7 +36,7 @@ public class MailDemo2 extends AbstractMailTrial {
 
 			pass = true;
 		} catch (Exception e) {
-			logger.logException(e);
+			logger.logStackTrace(e);
 		} finally {
 			logger.screenshotPage();
 		}

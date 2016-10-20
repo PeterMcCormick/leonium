@@ -91,7 +91,7 @@ public class BrowserLogger extends ExtentReports {
 	}
 
 	// Add log dialogue to report corresponding to specified exception
-	public String logException(Exception e) {
+	public String logStackTrace(Exception e) {
 		StringBuilder result = new StringBuilder();
 		StackTraceElement ste = Utils.lastMethodCall(3);
 		String exceptionName = colorTag("red", e.getClass().getSimpleName());
@@ -165,7 +165,7 @@ public class BrowserLogger extends ExtentReports {
 			FileUtils.copyFile(screenshot, f);
 			return f;
 		} catch (Exception e) {
-			logException(e);
+			logStackTrace(e);
 		}
 		return null;
 	}
@@ -178,7 +178,7 @@ public class BrowserLogger extends ExtentReports {
 		try {
 			logInfo(extentTest.addScreenCapture(screenshot(testDescription).getName()) + testDescription);
 		} catch (Exception e) {
-			logException(e);
+			logStackTrace(e);
 		}
 	}
 

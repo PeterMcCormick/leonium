@@ -8,6 +8,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -75,7 +76,7 @@ public class BrowserWait {
 				we = driver.findElement(by);
 			}
 		} catch (NoSuchElementException | InvalidElementStateException e) {
-			if (!web.options.continueOnException.getValue()) {
+			if (!web.options.continueOnNoSuchElement.getValue()) {
 				throw e;
 			}
 		}
@@ -134,7 +135,7 @@ public class BrowserWait {
 	}
 
 	public boolean forPageLoad() {
-		return forPageLoad((int) web.options.defaultWait.getValue());
+		return forPageLoad(web.options.defaultWait.getValue());
 	}
 
 	public boolean forPageState(int waitSeconds, String state) {
@@ -184,15 +185,21 @@ public class BrowserWait {
 	// wait for specified condition to return true
 	private <T> boolean waitUntil(int waitSeconds, Function<WebDriver, T> condition) {
 		boolean outcome = false;
-		if (waitSeconds > 0) {
-			logger.logDataRetrieval("Waiting for " + web.webElementToString(condition.toString()));
-			WebDriverWait wait = new WebDriverWait(driver, waitSeconds);
-			try {
-				wait.until(ExpectedConditions.refreshed((ExpectedCondition<T>) condition));
-			} catch (ClassCastException cce) {
-				wait.until(condition);
+		try {
+			if (waitSeconds > 0) {
+				logger.logDataRetrieval("Waiting for " + web.webElementToString(condition.toString()));
+				WebDriverWait wait = new WebDriverWait(driver, waitSeconds);
+				try {
+					wait.until(ExpectedConditions.refreshed((ExpectedCondition<T>) condition));
+				} catch (ClassCastException cce) {
+					wait.until(condition);
+				}
+				outcome = true;
 			}
-			outcome = true;
+		} catch (TimeoutException toe) {
+			if (!web.options.continueOnTimeout.getValue()) {
+				throw toe;
+			}
 		}
 		return outcome;
 	}

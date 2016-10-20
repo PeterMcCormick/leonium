@@ -46,6 +46,28 @@ public class BrowserBot {
 		}
 	}
 
+	public void screenshot() { // TODO - return File ?
+		RemoteWebDriver rwd = ((RemoteWebDriver) web.driver);
+		try {
+			rwd.getCommandExecutor().execute(new Command(rwd.getSessionId(), DriverCommand.ELEMENT_SCREENSHOT));
+		} catch (IOException e) {
+			logger.logStackTrace(e);
+		}
+
+	}
+
+	public void activateScreen() {
+		// Store the current window handle
+		String currentWindowHandle = web.driver.getWindowHandle();
+
+		// run your javascript and alert code
+		((JavascriptExecutor) web.driver).executeScript("alert('Test')");
+		web.switchTo.alert().accept();
+
+		// Switch back to to the window using the handle saved earlier
+		web.switchTo.window(currentWindowHandle);
+	}
+
 	public Actions moveToElement(WebElement we) {
 		return perform(actions.moveToElement(we));
 	}

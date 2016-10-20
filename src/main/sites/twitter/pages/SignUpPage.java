@@ -2,10 +2,10 @@ package main.sites.twitter.pages;
 
 import org.openqa.selenium.By;
 
-import main.sites.AbstractPageObject;
 import main.sites.AbstractTrial;
+import main.sites.PageObject;
 
-public class SignUpPage extends AbstractPageObject {
+public class SignUpPage extends PageObject {
 	public final By byInputFullName = By.id("full-name");
 	public final By byInputEmail = By.id("email");
 	public final By byInputPassword = By.id("password");

@@ -2,10 +2,10 @@ package main.sites.thesaurus.pages;
 
 import org.openqa.selenium.By;
 
-import main.sites.AbstractPageObject;
 import main.sites.AbstractTrial;
+import main.sites.PageObject;
 
-public class LandingPage extends AbstractPageObject {
+public class LandingPage extends PageObject {
 	public final By byInputSearch = By.id("q");
 	public final By byButtonSearch = By.id("search-submit");
 

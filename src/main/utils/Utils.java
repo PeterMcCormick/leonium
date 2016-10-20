@@ -409,7 +409,7 @@ public class Utils {
 
 	public static boolean strsNotNull(String... strs) {
 		for (String str : strs)
-			if ("".equals(str) || str == null)
+			if (str == null || "".equals(str) || "null".equals(str.toLowerCase()))
 				return false;
 		return true;
 	}
@@ -459,6 +459,19 @@ public class Utils {
 			openFile(file.getAbsolutePath());
 		}
 		return file;
+	}
+
+	@SafeVarargs
+	public static <T> String toString(T... vals) {
+		StringBuilder sb = new StringBuilder();
+		for (T val : vals) {
+			sb.append(val);
+		}
+		return sb.toString();
+	}
+
+	public static String affirmate(boolean b) {
+		return b ? "Yes" : "No";
 	}
 
 }

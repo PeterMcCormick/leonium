@@ -3,6 +3,7 @@ package main;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import main.sites.AbstractTrial;
+import main.sites.addressgenerator.trials.AddressGeneratorDemo0;
 import main.sites.fakemailgenerator.trials.FMGDemo0;
 import main.sites.friendproject.trials.FPDemo1;
 import main.sites.hotnewhiphop.trials.HNHdemo1;
@@ -10,6 +11,7 @@ import main.sites.instagram.trials.IGTdemo1;
 import main.sites.mail.trials.MailDemo1;
 import main.sites.mail.trials.MailDemo2;
 import main.sites.msn.trials.MsnDemo1;
+import main.sites.smartystreets.trials.SmartyStreetDemo0;
 import main.sites.thesaurus.trials.ThesaurusDemo0;
 import main.sites.throwawaymail.trials.TAMDemo0;
 import main.sites.twitter.trials.TwitterDemo0;
@@ -21,13 +23,15 @@ public class MainDriver {
 		try {
 			// twitterTest();
 			// throwAwayMailTest();
-			thesaurusTest0();
+			// thesaurusTest0();
 			// fakeMailGeneratorTest();
 			// mailTest2b();
 			// fpTest();
 			// hnhhTest();
+			smartyStreetTest();
+			// addressGeneratorTest();
 			// mailTest1();
-			 //msnTest();
+			// msnTest();
 			// igTest();
 		} catch (Exception e) {
 			Utils.generalException(e);
@@ -44,6 +48,14 @@ public class MainDriver {
 
 	public static void throwAwayMailTest() {
 		new TAMDemo0().run();
+	}
+
+	public static void addressGeneratorTest() {
+		new AddressGeneratorDemo0().run();
+	}
+
+	public static void smartyStreetTest() {
+		new SmartyStreetDemo0().run();
 	}
 
 	public static void fpTest() {
