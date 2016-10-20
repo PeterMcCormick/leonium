@@ -230,11 +230,6 @@ public class BrowserHandler {
 		return getElements(By.xpath(".//*[@" + attribute + "=" + "'" + value + "']"));
 	}
 
-	// return list of WebElement links
-	public ArrayList<WebElement> getLinks() {
-		return getTagElementsWithAttribute("a", "href");
-	}
-
 	public String getPageLoadState() {
 		Function<WebDriver, Boolean> function = new Function<WebDriver, Boolean>() {
 			public String state;
@@ -252,26 +247,6 @@ public class BrowserHandler {
 		return function.toString();
 	}
 
-	// @param tag = specified tag to search
-	// @param attribute = filter by specified attribute
-	// @param value = filter by specified attribute value
-	// @return = list of all WebElements containing* specified filter
-	public ArrayList<WebElement> getTagElementsContainingAttributeValue(String tag, String attribute, String value) {
-		return getElements(By.cssSelector(tag + "[" + attribute + "*='" + value + "']"));
-	}
-
-	public ArrayList<WebElement> getTagElementsWithAttribute(String tag, String attribute) {
-		return getElements(By.cssSelector(tag + "[" + attribute + "]"));
-	}
-
-	// @param tag = specified tag to search
-	// @param attribute = filter by specified attribute
-	// @param value = filter by specified attribute value
-	// @return = list of all WebElements matching* specified filter
-	public ArrayList<WebElement> getTagElementsWithAttributeValue(String tag, String attribute, String value) {
-		return getElements(By.cssSelector(tag + "[" + attribute + "='" + value + "']"));
-	}
-
 	// retrieve text of WebElement located by byType
 	public String getText(By by) {
 		return getText(getElement(by));
@@ -285,11 +260,6 @@ public class BrowserHandler {
 		logger.logMinorEvent(Utils.strsNotNull(text), details + "<br></u></strike><b>\"" + text + "\"</b>");
 		screenshotElement(we);
 		return text;
-	}
-
-	// return list of text box WebElements
-	public ArrayList<WebElement> getTextBoxes() {
-		return getTagElementsWithAttribute("input", "maxlength");
 	}
 
 	// retrieve all texts from list derived from specified by-locator

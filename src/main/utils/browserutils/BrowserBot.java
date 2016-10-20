@@ -1,26 +1,16 @@
 package main.utils.browserutils;
 
 import java.awt.AWTException;
-import java.awt.Rectangle;
 import java.awt.Robot;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.Command;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
-import main.gui.MyGui;
-import main.utils.Utils;
 
 public class BrowserBot {
 	private final WebDriver driver;
@@ -35,7 +25,7 @@ public class BrowserBot {
 		this.logger = web.logger;
 		this.actions = new Actions(driver);
 		this.robot = getRobot();
-		new Listener().start();
+		urlListener().start();
 	}
 
 	private Robot getRobot() {
@@ -77,24 +67,26 @@ public class BrowserBot {
 		return action;
 	}
 
-	public class Listener extends Thread {
-		public void run() {
-			try {
-				String prevUrl = driver.getCurrentUrl();
-				while (true) {
-					String currentUrl = driver.getCurrentUrl();
-					boolean urlChanged = !currentUrl.equals(prevUrl);
-					if (urlChanged) {
-						while (!web.getPageLoadState().equals("complete")) {
-							continue;
+	public Thread urlListener() {
+		return new Thread() {
+			public void run() {
+				try {
+					String prevUrl = driver.getCurrentUrl();
+					while (true) {
+						String currentUrl = driver.getCurrentUrl();
+						boolean urlChanged = !currentUrl.equals(prevUrl);
+						if (urlChanged) {
+							while (!web.getPageLoadState().equals("complete")) {
+								continue;
+							}
+							logger.screenshotPage();
+							prevUrl = driver.getCurrentUrl();
 						}
-						logger.screenshotPage();
-						prevUrl = driver.getCurrentUrl();
 					}
-				}
 
-			} catch (Exception e) {
+				} catch (Exception e) {
+				}
 			}
-		}
+		};
 	}
 }
