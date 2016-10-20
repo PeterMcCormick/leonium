@@ -138,20 +138,25 @@ public class BrowserWait {
 		return forPageLoad(web.options.defaultWait.getValue());
 	}
 
-	public boolean forPageState(int waitSeconds, String state) {
-		Function<WebDriver, Boolean> function = new Function<WebDriver, Boolean>() {
+	public boolean forPageState(int waitSeconds, String expectedState) {
+		Function<WebDriver, Boolean> isExpectedState = new Function<WebDriver, Boolean>() {
 			public Boolean apply(WebDriver driver) {
 				JavascriptExecutor jse = (JavascriptExecutor) driver;
-				String returnVal = jse.executeScript("return document.readyState").toString();
-				logger.logDataRetrieval("Current webpage loading-state is \"" + returnVal + "\"");
-				return returnVal.equals(state);
+				String currentState = jse.executeScript("return document.readyState").toString();
+				return currentState.equals(expectedState);
 			}
 
 			public String toString() {
-				return " webpage to load-state to be \"" + state + "\"";
+				return String.format("webpage to load-state to be '%s'", expectedState);
 			}
 		};
-		return function.apply(driver).booleanValue() ? true : waitUntil(waitSeconds, function);
+
+		if (web.getPageLoadState().toLowerCase().equals(expectedState.toLowerCase())) {
+			return true;
+		} else {
+			logger.logDataRetrieval(String.format("Current webpage loading-state is '%s'", web.getPageLoadState()));
+			return isExpectedState.apply(driver).booleanValue() ? true : waitUntil(waitSeconds, isExpectedState);
+		}
 	}
 
 	public WebElement forConditions(By by, int waitSeconds, String... conditions) {

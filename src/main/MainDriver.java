@@ -25,10 +25,10 @@ public class MainDriver {
 			// throwAwayMailTest();
 			// thesaurusTest0();
 			// fakeMailGeneratorTest();
-			// mailTest2b();
+			// mailTest2b(5);
 			// fpTest();
 			// hnhhTest();
-			smartyStreetTest();
+			 smartyStreetTest();
 			// addressGeneratorTest();
 			// mailTest1();
 			// msnTest();
@@ -82,11 +82,11 @@ public class MainDriver {
 		new MailDemo2().run();
 	}
 
-	public static void mailTest2b() {
+	public static void mailTest2b(int n) {
 		String url = "https://service.mail.com/registration.html?edition=us&lang=en&#.7518-header-signup2-1";
 		AbstractTrial t = null;
 
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < n; i++) {
 			t = new MailDemo2(url);
 			t.start();
 		}
