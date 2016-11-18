@@ -2,16 +2,16 @@ package main;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import main.sites.AbstractTrial;
-import main.sites.addressgenerator.trials.AddressGeneratorDemo0;
-import main.sites.friendproject.trials.FPDemo1;
-import main.sites.hotnewhiphop.trials.HNHdemo1;
-import main.sites.instagram.trials.IGTdemo1;
-import main.sites.mail.trials.MailDemo1;
-import main.sites.mail.trials.MailDemo2;
-import main.sites.msn.trials.MsnDemo1;
-import main.sites.smartystreets.trials.SmartyStreetDemo0;
-import main.sites.twitter.trials.TwitterDemo0;
+import main.testdomains.samples.AbstractTrial;
+import main.testdomains.samples.addressgenerator.trials.AddressGeneratorDemo0;
+import main.testdomains.samples.friendproject.trials.FPDemo1;
+import main.testdomains.samples.hotnewhiphop.trials.HNHdemo1;
+import main.testdomains.samples.instagram.trials.IGTdemo1;
+import main.testdomains.samples.mail.trials.MailDemo1;
+import main.testdomains.samples.mail.trials.MailDemo2;
+import main.testdomains.samples.msn.trials.MsnDemo1;
+import main.testdomains.samples.smartystreets.trials.SmartyStreetDemo0;
+import main.testdomains.samples.twitter.trials.TwitterDemo0;
 import main.utils.Utils;
 
 public class MainDriver {

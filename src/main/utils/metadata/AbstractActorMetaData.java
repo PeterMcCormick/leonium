@@ -14,10 +14,6 @@ public abstract class AbstractActorMetaData {
 	private String zipcode;
 	private int socialSecurityNumber;
 
-	public int getSocialSecurityNumber() {
-		return socialSecurityNumber;
-	}
-
 	public AbstractActorMetaData(String firstName, String lastName, String email, String addressLine1,
 			String addressLine2, String city, String state, String zipcode, int socialSecurityNumber) {
 		this.firstName = firstName;
@@ -57,6 +53,10 @@ public abstract class AbstractActorMetaData {
 
 	public String getLastName() {
 		return lastName;
+	}
+
+	public int getSocialSecurityNumber() {
+		return socialSecurityNumber;
 	}
 
 	public String getState() {

@@ -14,7 +14,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-import main.sites.AbstractTrial;
+import main.testdomains.samples.AbstractTrial;
 import main.utils.Utils;
 
 public class BrowserLogger extends ExtentReports {

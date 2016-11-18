@@ -34,8 +34,8 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.google.common.base.Function;
 
-import main.sites.AbstractTrial;
-import main.sites.smartystreets.pages.DemoPage;
+import main.testdomains.samples.AbstractTrial;
+import main.testdomains.samples.smartystreets.pages.DemoPage;
 import main.utils.Utils;
 
 public class BrowserHandler {

@@ -1,6 +1,6 @@
 package main.utils.metadata;
 
-import main.sites.addressgenerator.trials.AddressGeneratorDemo0;
+import main.testdomains.samples.addressgenerator.trials.AddressGeneratorDemo0;
 import main.utils.Utils;
 import main.utils.browserutils.BrowserHandler;
 
