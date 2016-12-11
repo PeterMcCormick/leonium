@@ -5,7 +5,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import main.utils.Utils;
 import main.utils.browserutils.BrowserHandler;
-import main.utils.browserutils.BrowserLogger;
+import main.utils.browserutils.BrowserReports;
 import main.utils.browserutils.browserwrappers.PhantomDriver;
 
 public abstract class AbstractTrial extends Thread {
@@ -15,7 +15,7 @@ public abstract class AbstractTrial extends Thread {
 
 	public final RemoteWebDriver remoteDriver;
 	public final WebDriver driver;
-	public final BrowserLogger logger;
+	public final BrowserReports logger;
 	public final BrowserHandler web;
 
 	protected static final String date = Utils.getDate();
@@ -35,11 +35,11 @@ public abstract class AbstractTrial extends Thread {
 		this.url = url;
 		this.driver = driver;
 		this.remoteDriver = (RemoteWebDriver) driver;
-		this.logger = new BrowserLogger(getLoggerPath(), getClass(), driver);
+		this.logger = new BrowserReports(getLoggerPath(), getClass(), driver);
 		this.web = new BrowserHandler(driver, logger, 15);
 	}
 
-	public AbstractTrial(WebDriver driver, BrowserLogger logger, String url) {
+	public AbstractTrial(WebDriver driver, BrowserReports logger, String url) {
 		this.pass = false;
 		this.url = url;
 		this.driver = driver;

@@ -22,7 +22,7 @@ import main.utils.Utils;
 public class BrowserWait {
 
 	protected final BrowserHandler web;
-	protected final BrowserLogger logger;
+	protected final BrowserReports logger;
 	protected final WebDriver driver;
 
 	public BrowserWait(BrowserHandler web) {

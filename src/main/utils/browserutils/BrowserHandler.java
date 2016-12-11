@@ -42,7 +42,7 @@ public class BrowserHandler {
 
 	public final WebDriver driver;
 	public final JavascriptExecutor jse;
-	public final BrowserLogger logger;
+	public final BrowserReports logger;
 	public final BrowserWait wait;
 	public final BrowserBot bot;
 	public final TargetLocator switchTo;
@@ -61,11 +61,11 @@ public class BrowserHandler {
 		this(validator.driver, validator.logger, defaultWait);
 	}
 
-	public BrowserHandler(WebDriver driver, BrowserLogger logger) {
+	public BrowserHandler(WebDriver driver, BrowserReports logger) {
 		this(driver, logger, 15);
 	}
 
-	public BrowserHandler(WebDriver driver, BrowserLogger logger, int defaultWait) {
+	public BrowserHandler(WebDriver driver, BrowserReports logger, int defaultWait) {
 		this.driver = driver;
 		this.logger = logger;
 		this.switchTo = driver.switchTo();

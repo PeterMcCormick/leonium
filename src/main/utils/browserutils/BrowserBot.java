@@ -51,7 +51,7 @@ public class BrowserBot {
 	}
 
 	private final BrowserHandler web;
-	private final BrowserLogger logger;
+	private final BrowserReports logger;
 	private final Actions actions;
 	private final Robot robot;
 	private final Runtime runtime;

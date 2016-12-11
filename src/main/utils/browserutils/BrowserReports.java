@@ -17,12 +17,12 @@ import com.relevantcodes.extentreports.LogStatus;
 import main.sites.AbstractTrial;
 import main.utils.Utils;
 
-public class BrowserLogger extends ExtentReports {
+public class BrowserReports extends ExtentReports {
 	private final TakesScreenshot browserCam;
 	private final ExtentTest extentTest;
 	private final String loggerPath;
 
-	public BrowserLogger(String loggerPath, Class<? extends AbstractTrial> trial, WebDriver driver) {
+	public BrowserReports(String loggerPath, Class<? extends AbstractTrial> trial, WebDriver driver) {
 		super(loggerPath + "/Result.html", false);
 		this.loggerPath = loggerPath;
 		this.extentTest = startTest(getTrialName(trial));

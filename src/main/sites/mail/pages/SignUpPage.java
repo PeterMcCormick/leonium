@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import main.sites.PageObject;
 import main.sites.AbstractTrial;
 import main.utils.Utils;
-import main.utils.browserutils.BrowserLogger;
+import main.utils.browserutils.BrowserReports;
 
 public class SignUpPage extends PageObject {
 	public By byInputFirstName = By.xpath("(.//input)[2]");
@@ -74,7 +74,7 @@ public class SignUpPage extends PageObject {
 	}
 
 	public void signUp(String firstName, String lastName, String desiredEmail, String password) {
-		BrowserLogger bl = web.logger;
+		BrowserReports bl = web.logger;
 		initSelectors();
 
 		bl.logInfo("First name1");
