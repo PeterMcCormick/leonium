@@ -27,7 +27,7 @@ public class BrowserReports extends ExtentReports {
 		this.reportsPath = reportsPath;
 		this.extentTest = startTest(getTrialName(trial));
 		this.browserCam = (TakesScreenshot) new Augmenter().augment(driver);
-		Utils.makeMissingDirectories(reportsPath);
+		Utils.createMissingDirectories(reportsPath);
 	}
 
 	public String colorTag(String color, String text) {
