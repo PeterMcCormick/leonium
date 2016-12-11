@@ -6,7 +6,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import main.utils.Utils;
 import main.utils.browserutils.BrowserHandler;
 import main.utils.browserutils.BrowserReports;
-import main.utils.browserutils.browserwrappers.PhantomDriver;
+import main.utils.browserutils.browserwrappers.PhantomBrowser;
 
 public abstract class AbstractTrial extends Thread {
 
@@ -27,7 +27,7 @@ public abstract class AbstractTrial extends Thread {
 	}
 
 	public AbstractTrial(String url) {
-		this(new PhantomDriver(), url);
+		this(new PhantomBrowser(), url);
 	}
 
 	public AbstractTrial(WebDriver driver, String url) {

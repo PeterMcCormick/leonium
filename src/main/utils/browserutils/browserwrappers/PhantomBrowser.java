@@ -11,7 +11,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import main.utils.Utils;
 
-public class PhantomDriver extends PhantomJSDriver {
+public class PhantomBrowser extends PhantomJSDriver {
 	static {
 		String userAgent = "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.41 Safari/535.1";
 		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.SimpleLog");
@@ -20,11 +20,11 @@ public class PhantomDriver extends PhantomJSDriver {
 		System.setProperty("phantomjs.page.settings.userAgent", userAgent);
 	}
 
-	public PhantomDriver(DesiredCapabilities caps) {
+	public PhantomBrowser(DesiredCapabilities caps) {
 		super(DesiredCapabilities.phantomjs().merge(caps));
 	}
 
-	public PhantomDriver() {
+	public PhantomBrowser() {
 		super(desiredCapabilities());
 		this.setLogLevel(Level.OFF);
 		getErrorHandler().setIncludeServerErrors(false);
