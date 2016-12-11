@@ -20,13 +20,11 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Options;
 import org.openqa.selenium.WebDriver.TargetLocator;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -35,7 +33,6 @@ import org.openqa.selenium.support.ui.Select;
 import com.google.common.base.Function;
 
 import main.sites.AbstractTrial;
-import main.sites.smartystreets.pages.DemoPage;
 import main.utils.Utils;
 
 public class BrowserHandler {
@@ -141,7 +138,7 @@ public class BrowserHandler {
 		try {
 			outcome = getText(we).contains(expectedText);
 		} catch (Exception e) {
-			outcome = getElementByText(expectedText) != null;
+			outcome = getElement(With.text(expectedText)) != null;
 		}
 		return reports.logMinorEvent(outcome, "[" + webElementToString(we) + "] contained text '" + expectedText + "'");
 	}
@@ -165,11 +162,6 @@ public class BrowserHandler {
 		return we;
 	}
 
-	// return first element containing specified text-value
-	public WebElement getElementByText(String text) {
-		return getElement(By.xpath("//*[contains(text(), '" + text + "')]"));
-	}
-
 	public WebElement[] getElements(By... bys) {
 		int n = bys.length;
 		WebElement[] elements = new WebElement[n];
@@ -189,11 +181,6 @@ public class BrowserHandler {
 
 	public WebElement[] getElements(List<By> bys) {
 		return getElements(bys.toArray(new By[bys.size()]));
-	}
-
-	// return list of elements containing specified text-value
-	public ArrayList<WebElement> getElementsByText(String text) {
-		return getElements(By.xpath("//*[contains(text(), '" + text + "')]"));
 	}
 
 	public WebElement[] getElementsFromWindow(String windowUrl, By... bys) {
@@ -220,19 +207,9 @@ public class BrowserHandler {
 		return elements;
 	}
 
-	// return list of WebElements with specified attribute
-	public ArrayList<WebElement> getElementsWithAttribute(String attribute) {
-		return getElements(By.cssSelector("[" + attribute + "]"));
-	}
-
-	// return list of WebElements with specified attribute
-	public ArrayList<WebElement> getElementsWithAttributeValue(String attribute, String value) {
-		return getElements(By.xpath(".//*[@" + attribute + "=" + "'" + value + "']"));
-	}
-
 	// return list of WebElement links
 	public ArrayList<WebElement> getLinks() {
-		return getTagElementsWithAttribute("a", "href");
+		return getElements(With.tagAttribute("a", "href"));
 	}
 
 	public String getPageLoadState() {
@@ -252,31 +229,6 @@ public class BrowserHandler {
 		return function.toString();
 	}
 
-	// @param tag = specified tag to search
-	// @param attribute = filter by specified attribute
-	// @param value = filter by specified attribute value
-	// @return = list of all WebElements containing* specified filter
-	public ArrayList<WebElement> getTagElementsContainingAttributeValue(String tag, String attribute, String value) {
-		return getElements(By.cssSelector(tag + "[" + attribute + "*='" + value + "']"));
-	}
-
-	public ArrayList<WebElement> getTagElementsWithAttribute(String tag, String attribute) {
-		return getElements(By.cssSelector(tag + "[" + attribute + "]"));
-	}
-
-	// @param tag = specified tag to search
-	// @param attribute = filter by specified attribute
-	// @param value = filter by specified attribute value
-	// @return = list of all WebElements matching* specified filter
-	public ArrayList<WebElement> getTagElementsWithAttributeValue(String tag, String attribute, String value) {
-		return getElements(By.cssSelector(tag + "[" + attribute + "='" + value + "']"));
-	}
-
-	// retrieve text of WebElement located by byType
-	public String getText(By by) {
-		return getText(getElement(by));
-	}
-
 	// retrieve text of WebElement
 	public String getText(WebElement we) {
 		String text = null;
@@ -285,11 +237,6 @@ public class BrowserHandler {
 		reports.logMinorEvent(Utils.strsNotNull(text), details + "<br></u></strike><b>\"" + text + "\"</b>");
 		screenshotElement(we);
 		return text;
-	}
-
-	// return list of text box WebElements
-	public ArrayList<WebElement> getTextBoxes() {
-		return getTagElementsWithAttribute("input", "maxlength");
 	}
 
 	// retrieve all texts from list derived from specified by-locator
