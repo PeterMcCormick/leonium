@@ -38,7 +38,7 @@ public class UserPage extends PageObject {
 					web.sendKeys(followButton, Keys.PAGE_DOWN.name());
 					followButtons = web.getElements(followers);
 				} catch (Exception e) {
-					runner.logger.logStackTrace(e);
+					trial.logger.logStackTrace(e);
 				}
 			}
 		}

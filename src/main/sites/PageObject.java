@@ -6,12 +6,12 @@ import main.utils.Utils;
 import main.utils.browserutils.BrowserHandler;
 
 public abstract class PageObject {
-	protected AbstractTrial runner;
+	protected AbstractTrial trial;
 	protected BrowserHandler web;
 
-	public PageObject(AbstractTrial runner) {
-		this.runner = runner;
-		this.web = runner.web;
+	public PageObject(AbstractTrial trial) {
+		this.trial = trial;
+		this.web = trial.web;
 	}
 
 	public By[] getDeclaredBys() {
