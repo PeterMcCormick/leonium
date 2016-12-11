@@ -114,7 +114,7 @@ public class BrowserHandler {
 		while (handles.hasNext()) {
 			String next = handles.next();
 			switchTo.window(next);
-			Utils.print("Closing window: [" + driver.getTitle() + "]\n<br />[" + driver.getCurrentUrl() + "]");
+			Utils.printR("Closing window: [" + driver.getTitle() + "]\n<br />[" + driver.getCurrentUrl() + "]");
 			switchTo.window(next).close();
 		}
 		switchTo.window(parent);

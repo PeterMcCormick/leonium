@@ -42,16 +42,16 @@ public class Utils {
 		Object ranObj = "" + randint(9999);
 		printFields(ranObj);
 		for (Object obj : getFieldValues(ranObj, String.class)) {
-			print(obj.toString());
+			printR(obj.toString());
 		}
 	}
 
 	/**
 	 * @param object
-	 *            - object whose fields to access
+	 *            object whose fields to access
 	 * @param fieldClass
-	 *            - type of field to retrieve
-	 * @return - ArrayList of values
+	 *            type of field to retrieve
+	 * @return ArrayList of values
 	 */
 	public static <T, E> ArrayList<E> getFieldValues(T object, Class<E> fieldClass) {
 		ArrayList<E> fields = new ArrayList<E>();
@@ -112,12 +112,12 @@ public class Utils {
 		}
 	}
 
-	public static String generalException(Exception e) {
+	public static String printStackTrace(Exception e) {
 		StackTraceElement ste = lastMethodCall(3);
 		String exceptionName = e.getClass().getSimpleName();
 		String header = "\n" + exceptionName + " caught by " + klickable(ste);
 		String border = repeatStr("-", 100);
-		return print(
+		return printR(
 				"\n\n" + border + header + "\n" + parseStackTrace(e).replace("<br>", "\n") + "\n" + border + "\n\n");
 	}
 
@@ -221,11 +221,7 @@ public class Utils {
 	}
 
 	public static void makeMissingDirectories(String directory) {
-		try {
-			new File(directory).mkdirs();
-		} catch (Exception e) {
-			generalException(e);
-		}
+		new File(directory).mkdirs();
 	}
 
 	public static void openFile(String fullpath) {
@@ -237,7 +233,7 @@ public class Utils {
 				throw new Exception("Awt Desktop is not supported!");
 			}
 		} catch (Exception e) {
-			generalException(e);
+			printStackTrace(e);
 		}
 	}
 
@@ -274,44 +270,30 @@ public class Utils {
 		return result.toString();
 	}
 
-	public static <T> String print(String baseString, T... args) {
-		return print(String.format(baseString, args));
+	// print format & return
+	public static <T> String printF(String baseString, T... args) {
+		return printR(String.format(baseString, args));
 	}
 
-	public static <T> T print(T output) {
+	// print Return
+	public static <T> T printR(T output) {
 		System.out.println(output);
 		return output;
 	}
 
 	public static String printElapsedTime(double t0) {
-		return print("Elapsed Time: %s seconds", getElapsedTime(t0));
+		return printF("Elapsed Time: %s seconds", getElapsedTime(t0));
 	}
 
 	public static <T> void printFields(T object) {
-		print("Printing field values of %s", getId(object));
+		printF("Printing field values of %s", getId(object));
 		for (Field field : object.getClass().getDeclaredFields()) {
 			try {
-				print("\tName: %s\n\tValue: %s\n", field.getName(), field.get(object));
+				printF("\tName: %s\n\tValue: %s\n", field.getName(), field.get(object));
 			} catch (Exception e) {
 
 			}
 		}
-	}
-
-	public static ResultSet query(String sql) {
-		try {
-			String user = System.getenv("AGENTDESK_USERNAME");
-			String pass = System.getenv("AGENTDESK_PASS");
-			Connection c = DriverManager.getConnection(
-					"sqlserver:\\DB05.marlettefunding.com, database=MFDW, username=" + user + ", password=" + pass);
-			PreparedStatement ps = (PreparedStatement) c.createStatement();
-			ps.close();
-			c.close();
-			return ps.executeQuery(sql);
-		} catch (Exception e) {
-			generalException(e);
-		}
-		return null;
 	}
 
 	public static int randint(int max) {

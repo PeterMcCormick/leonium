@@ -78,7 +78,7 @@ public abstract class AbstractTrial extends Thread {
 			Utils.openFile(getLoggerPath() + "Result.html");
 			driver.quit();
 		} catch (Exception e) {
-			Utils.generalException(e);
+			Utils.printStackTrace(e);
 		}
 	}
 

@@ -39,7 +39,7 @@ public class BrowserReports extends ExtentReports {
 			this.flush();
 			this.endTest(extentTest);
 		} catch (Exception e) {
-			Utils.generalException(e);
+			Utils.printStackTrace(e);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class BrowserReports extends ExtentReports {
 		} else {
 			extentTest.log(LogStatus.FAIL, colorTag("red", "<strike>" + fail + "</strike>"));
 		}
-		Utils.print(removeTags(pass.replace("<br>", "\n\t")) + " = " + success);
+		Utils.printR(removeTags(pass.replace("<br>", "\n\t")) + " = " + success);
 		return success;
 	}
 
@@ -123,8 +123,8 @@ public class BrowserReports extends ExtentReports {
 	public String logInfo(String baseString, Object... args) {
 		String info = String.format(baseString, args);
 		try {
-			Utils.print("\n\nLogging information...");
-			Utils.print(removeTags(info.replace("<br>", "\n\t")));
+			Utils.printR("\n\nLogging information...");
+			Utils.printR(removeTags(info.replace("<br>", "\n\t")));
 			info = Utils.removeStrings(info, " = false", " = true");
 			extentTest.log(LogStatus.INFO, info);
 		} catch (Exception e) {
@@ -141,7 +141,7 @@ public class BrowserReports extends ExtentReports {
 	public boolean logMinorEvent(boolean outcome, String passMessage, String failMessage) {
 		if (outcome) {
 			String description = colorTag("blue", passMessage);
-			Utils.print(removeTags(description.replace("<br>", "\n\t")));
+			Utils.printR(removeTags(description.replace("<br>", "\n\t")));
 			description = description.replace(" = false", "").replace(" = true", "");
 			extentTest.log(LogStatus.PASS, description);
 		} else {
@@ -161,7 +161,7 @@ public class BrowserReports extends ExtentReports {
 			fileName = Utils.removeChars(fileName, "~!@#$&%^*':<>\\/()[]{}") + "_" + System.currentTimeMillis();
 			File screenshot = browserCam.getScreenshotAs(OutputType.FILE);
 			new File(reportsPath).mkdirs();
-			File f = new File(Utils.print(reportsPath + "\\" + fileName + ".png"));
+			File f = new File(Utils.printR(reportsPath + "\\" + fileName + ".png"));
 			FileUtils.copyFile(screenshot, f);
 			return f;
 		} catch (Exception e) {

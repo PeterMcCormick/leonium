@@ -205,7 +205,7 @@ public class BrowserWait {
 	}
 
 	public WebElement forKeyable(By by, int waitSeconds) {
-		Utils.print("forKeyable(%s,%s)", by, waitSeconds);
+		Utils.printF("forKeyable(%s,%s)", by, waitSeconds);
 		boolean isKeyable = false;
 		long t0 = System.currentTimeMillis();
 

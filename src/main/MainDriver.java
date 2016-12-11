@@ -28,7 +28,7 @@ public class MainDriver {
 			// msnTest();
 			// igTest();
 		} catch (Exception e) {
-			Utils.generalException(e);
+			Utils.printStackTrace(e);
 		}
 	}
 
