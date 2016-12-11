@@ -42,7 +42,7 @@ public class BrowserHandler {
 
 	public final WebDriver driver;
 	public final JavascriptExecutor jse;
-	public final BrowserReports logger;
+	public final BrowserReports reports;
 	public final BrowserWait wait;
 	public final BrowserBot bot;
 	public final TargetLocator switchTo;
@@ -58,16 +58,16 @@ public class BrowserHandler {
 	}
 
 	public BrowserHandler(AbstractTrial validator, int defaultWait) {
-		this(validator.driver, validator.logger, defaultWait);
+		this(validator.driver, validator.reports, defaultWait);
 	}
 
-	public BrowserHandler(WebDriver driver, BrowserReports logger) {
-		this(driver, logger, 15);
+	public BrowserHandler(WebDriver driver, BrowserReports reports) {
+		this(driver, reports, 15);
 	}
 
-	public BrowserHandler(WebDriver driver, BrowserReports logger, int defaultWait) {
+	public BrowserHandler(WebDriver driver, BrowserReports reports, int defaultWait) {
 		this.driver = driver;
-		this.logger = logger;
+		this.reports = reports;
 		this.switchTo = driver.switchTo();
 		this.jse = ((JavascriptExecutor) driver);
 
@@ -96,13 +96,13 @@ public class BrowserHandler {
 			screenshotElement(we);
 		}
 		we.click();
-		logger.logInfo("Clicked [" + webElementToString(we) + "]");
+		reports.logInfo("Clicked [" + webElementToString(we) + "]");
 	}
 
 	// switch to and close pop up
 	public void closePopup() {
 		String parent = switchToPopup();
-		logger.logInfo("Closing window: [" + driver.getCurrentUrl() + "]");
+		reports.logInfo("Closing window: [" + driver.getCurrentUrl() + "]");
 		switchTo.alert().dismiss();
 		switchTo.window(parent);
 	}
@@ -123,9 +123,9 @@ public class BrowserHandler {
 	// deletes all cached cookies and logs each deletion
 	public void deleteAllCookies() {
 		Options driverManager = driver.manage();
-		logger.logInfo("Deleting all cookies");
+		reports.logInfo("Deleting all cookies");
 		for (Cookie cookie : driverManager.getCookies()) {
-			logger.logInfo("Deleting cookie \"" + cookie.getName() + "\"");
+			reports.logInfo("Deleting cookie \"" + cookie.getName() + "\"");
 		}
 		driverManager.deleteAllCookies();
 	}
@@ -143,7 +143,7 @@ public class BrowserHandler {
 		} catch (Exception e) {
 			outcome = getElementByText(expectedText) != null;
 		}
-		return logger.logMinorEvent(outcome, "[" + webElementToString(we) + "] contained text '" + expectedText + "'");
+		return reports.logMinorEvent(outcome, "[" + webElementToString(we) + "] contained text '" + expectedText + "'");
 	}
 
 	public WebElement getActiveElement() {
@@ -161,7 +161,7 @@ public class BrowserHandler {
 	// return non-stale WebElement specified by byType
 	public WebElement getElement(By by) {
 		WebElement we = wait.forConditions(by, options.defaultWait.getValue(), "presence", "stale");
-		logger.logMinorEvent(we != null, "Located element [" + webElementToString(we) + "]");
+		reports.logMinorEvent(we != null, "Located element [" + webElementToString(we) + "]");
 		return we;
 	}
 
@@ -183,7 +183,7 @@ public class BrowserHandler {
 	public ArrayList<WebElement> getElements(By by) {
 		ArrayList<WebElement> elements = wait.forPresences(options.defaultWait.getValue(), by);
 		int count = elements.size();
-		logger.logMinorEvent(count > 0, "Located " + count + " elements [" + by + "]");
+		reports.logMinorEvent(count > 0, "Located " + count + " elements [" + by + "]");
 		return elements;
 	}
 
@@ -282,7 +282,7 @@ public class BrowserHandler {
 		String text = null;
 		text = we.getText();
 		String details = "Retrieved text from element [" + webElementToString(we) + "]";
-		logger.logMinorEvent(Utils.strsNotNull(text), details + "<br></u></strike><b>\"" + text + "\"</b>");
+		reports.logMinorEvent(Utils.strsNotNull(text), details + "<br></u></strike><b>\"" + text + "\"</b>");
 		screenshotElement(we);
 		return text;
 	}
@@ -340,7 +340,7 @@ public class BrowserHandler {
 	}
 
 	public boolean isDisplayed(WebElement we) {
-		return logger.logMinorEvent(we.isDisplayed(), "Element [" + webElementToString(we) + "] is displayed.");
+		return reports.logMinorEvent(we.isDisplayed(), "Element [" + webElementToString(we) + "] is displayed.");
 	}
 
 	public boolean isEnabled(By by) {
@@ -348,7 +348,7 @@ public class BrowserHandler {
 	}
 
 	public boolean isEnabled(WebElement we) {
-		return logger.logMinorEvent(we.isEnabled(), "Element [" + webElementToString(we) + "] is enabled.");
+		return reports.logMinorEvent(we.isEnabled(), "Element [" + webElementToString(we) + "] is enabled.");
 	}
 
 	public boolean isSelected(By by) {
@@ -356,13 +356,13 @@ public class BrowserHandler {
 	}
 
 	public boolean isSelected(WebElement we) {
-		return logger.logMinorEvent(we.isSelected(), "Element [" + webElementToString(we) + "] is selected.");
+		return reports.logMinorEvent(we.isSelected(), "Element [" + webElementToString(we) + "] is selected.");
 	}
 
 	public boolean navigateTo(String url) {
 		driver.get(url);
 		String details = "Successfully navigated to url '" + url + "'";
-		return logger.logMinorEvent(wait.forPageLoad(options.defaultWait.getValue()), details);
+		return reports.logMinorEvent(wait.forPageLoad(options.defaultWait.getValue()), details);
 	}
 
 	// print all driver logs
@@ -376,7 +376,7 @@ public class BrowserHandler {
 	public void printDriverLogs(String logType) {
 		Iterator<LogEntry> iterator = driver.manage().logs().get(logType).iterator();
 		while (iterator.hasNext()) {
-			logger.logInfo(iterator.next().getMessage());
+			reports.logInfo(iterator.next().getMessage());
 		}
 	}
 
@@ -396,10 +396,10 @@ public class BrowserHandler {
 				BufferedImage fullImg = ImageIO.read(screenshot);
 				BufferedImage eleScreenshot = fullImg.getSubimage(p.getX(), p.getY(), dim.getWidth(), dim.getHeight());
 				ImageIO.write(eleScreenshot, "png", screenshot);
-				file = new File(logger.getLoggerPath() + eleName + System.currentTimeMillis() + ".png");
+				file = new File(reports.getReportsPath() + eleName + System.currentTimeMillis() + ".png");
 				FileUtils.copyFile(screenshot, file);
-				logger.logInfo(logger.getTest().addScreenCapture(file.getName()) + "<br>"
-						+ logger.colorTag("green", file.getName()));
+				reports.logInfo(reports.getTest().addScreenCapture(file.getName()) + "<br>"
+						+ reports.colorTag("green", file.getName()));
 			} catch (UnhandledAlertException uae) {
 				bot.screenshotElement(we);
 			} catch (RasterFormatException e) {
@@ -416,7 +416,7 @@ public class BrowserHandler {
 	// select by WebElement
 	public Select select(WebElement we) {
 		Select select = new Select(we);
-		logger.logMinorEvent(select != null, "Selected [" + webElementToString(we) + "]");
+		reports.logMinorEvent(select != null, "Selected [" + webElementToString(we) + "]");
 		if (options.screenshotOnSelect.getValue()) {
 			screenshotElement(we);
 		}
@@ -430,7 +430,7 @@ public class BrowserHandler {
 	// select by WebElement and select index option
 	public void selectByIndex(WebElement we, int index) {
 		select(we).selectByIndex(index);
-		logger.logMinorEvent(true, "Selected index \"" + index + "\" from [" + webElementToString(we) + "]");
+		reports.logMinorEvent(true, "Selected index \"" + index + "\" from [" + webElementToString(we) + "]");
 		if (options.screenshotOnSelect.getValue()) {
 			screenshotElement(we);
 		}
@@ -453,7 +453,7 @@ public class BrowserHandler {
 	// select by WebElement and select visible text
 	public void selectByVisibleText(WebElement we, String visibleText) {
 		select(we).selectByVisibleText(visibleText);
-		logger.logMinorEvent(true, "Selected \"" + visibleText + "\" from [" + webElementToString(we) + "]");
+		reports.logMinorEvent(true, "Selected \"" + visibleText + "\" from [" + webElementToString(we) + "]");
 		if (options.screenshotOnSelect.getValue()) {
 			screenshotElement(we);
 		}
@@ -481,7 +481,7 @@ public class BrowserHandler {
 		}
 		we.sendKeys(keys);
 
-		logger.logInfo("Sent keys \"" + Utils.toString(keys) + "\" to [" + elem + "]");
+		reports.logInfo("Sent keys \"" + Utils.toString(keys) + "\" to [" + elem + "]");
 		if (options.screenshotOnClick.getValue()) {
 			screenshotElement(we);
 		}
@@ -492,7 +492,7 @@ public class BrowserHandler {
 		String parentWindow = driver.getWindowHandle(); // parent window
 		String childWindow = driver.getWindowHandles().iterator().next();
 		switchTo.window(childWindow);
-		logger.logInfo("Switching to window: [" + driver.getTitle() + "]\n<br />\"" + driver.getCurrentUrl() + "\"");
+		reports.logInfo("Switching to window: [" + driver.getTitle() + "]\n<br />\"" + driver.getCurrentUrl() + "\"");
 		return parentWindow;
 	}
 
@@ -528,7 +528,7 @@ public class BrowserHandler {
 
 	// return true when pop up appears
 	public boolean waitForPopup() {
-		return logger.logMinorEvent(wait.forAlert(options.defaultWait.getValue()), "Pop up found");
+		return reports.logMinorEvent(wait.forAlert(options.defaultWait.getValue()), "Pop up found");
 	}
 
 	// return string representation of WebElement

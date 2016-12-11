@@ -58,7 +58,7 @@ public class BrowserBot {
 
 	public BrowserBot(BrowserHandler web) {
 		this.web = web;
-		this.logger = web.logger;
+		this.logger = web.reports;
 		this.actions = new Actions(web.driver);
 		this.robot = getRobot();
 		this.runtime = Runtime.getRuntime();
@@ -73,7 +73,7 @@ public class BrowserBot {
 		BufferedImage bi = robot.createScreenCapture(new Rectangle(p.getX(), p.getY(), d.getWidth(), d.getHeight()));
 		String eleName = Utils.removeChars(web.webElementToString(we), "~!@#$&%^*':<>\\/()[]{}") + " - ";
 		String fileName = eleName + System.currentTimeMillis() + ".png";
-		String directory = logger.getLoggerPath();
+		String directory = logger.getReportsPath();
 		File file = new File(directory + fileName);
 		logger.logInfo(logger.getTest().addScreenCapture(file.getName()) + logger.colorTag("green", file.getName()));
 		try {

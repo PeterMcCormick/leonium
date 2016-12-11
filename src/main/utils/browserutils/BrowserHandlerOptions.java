@@ -8,8 +8,8 @@ public class BrowserHandlerOptions {
 
 	public final BrowserOption<Boolean> continueOnNoSuchElement = new BrowserOption<Boolean>();
 	public final BrowserOption<Boolean> continueOnTimeout = new BrowserOption<Boolean>();
-	public final BrowserOption<Boolean> logOnWait = new BrowserOption<Boolean>();
-	public final BrowserOption<Boolean> logAutonomously = new BrowserOption<Boolean>();
+	public final BrowserOption<Boolean> reportOnWait = new BrowserOption<Boolean>();
+	public final BrowserOption<Boolean> repportAutonomously = new BrowserOption<Boolean>();
 	public final BrowserOption<Integer> defaultWait = new BrowserOption<Integer>(15);
 
 	public class BrowserOption<T> {

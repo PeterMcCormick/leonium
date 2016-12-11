@@ -24,6 +24,6 @@ public class SmartyStreetDemo0 extends AbstractSmartyStreetTrial {
 		web.options.defaultWait.setValue(60);
 		web.wait.forPageLoad();
 		web.screenshotElement(DemoPage.USView.bySpanMatchCount);
-		logger.screenshotPage();
+		reports.screenshotPage();
 	}
 }

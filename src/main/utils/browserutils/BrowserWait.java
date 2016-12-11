@@ -28,7 +28,7 @@ public class BrowserWait {
 	public BrowserWait(BrowserHandler web) {
 		this.web = web;
 		this.driver = web.driver;
-		this.logger = web.logger;
+		this.logger = web.reports;
 	}
 
 	public WebElement forEnabled(By by, int waitSeconds, boolean isEnabled) {

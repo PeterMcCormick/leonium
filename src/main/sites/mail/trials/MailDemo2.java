@@ -32,9 +32,9 @@ public class MailDemo2 extends AbstractMailTrial {
 
 			pass = true;
 		} catch (Exception e) {
-			logger.logStackTrace(e);
+			reports.logStackTrace(e);
 		} finally {
-			logger.screenshotPage();
+			reports.screenshotPage();
 		}
 	}
 

@@ -12,7 +12,7 @@ public class TwitterDemo0 extends AbstractTwitterTrial {
 	protected void test() {		
 		landingPage.login("username", "password");
 		web.wait.forPageLoad();
-		logger.screenshotPage();
+		reports.screenshotPage();
 		web.click(landingPage.byButtonLogin0);
 	}
 }

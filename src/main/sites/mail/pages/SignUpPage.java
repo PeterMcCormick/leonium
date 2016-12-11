@@ -74,7 +74,7 @@ public class SignUpPage extends PageObject {
 	}
 
 	public void signUp(String firstName, String lastName, String desiredEmail, String password) {
-		BrowserReports bl = web.logger;
+		BrowserReports bl = web.reports;
 		initSelectors();
 
 		bl.logInfo("First name1");

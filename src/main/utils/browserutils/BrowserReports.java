@@ -20,14 +20,14 @@ import main.utils.Utils;
 public class BrowserReports extends ExtentReports {
 	private final TakesScreenshot browserCam;
 	private final ExtentTest extentTest;
-	private final String loggerPath;
+	private final String reportsPath;
 
-	public BrowserReports(String loggerPath, Class<? extends AbstractTrial> trial, WebDriver driver) {
-		super(loggerPath + "/Result.html", false);
-		this.loggerPath = loggerPath;
+	public BrowserReports(String reportsPath, Class<? extends AbstractTrial> trial, WebDriver driver) {
+		super(reportsPath + "/Result.html", false);
+		this.reportsPath = reportsPath;
 		this.extentTest = startTest(getTrialName(trial));
 		this.browserCam = (TakesScreenshot) new Augmenter().augment(driver);
-		Utils.makeMissingDirectories(loggerPath);
+		Utils.makeMissingDirectories(reportsPath);
 	}
 
 	public String colorTag(String color, String text) {
@@ -43,8 +43,8 @@ public class BrowserReports extends ExtentReports {
 		}
 	}
 
-	public String getLoggerPath() {
-		return loggerPath;
+	public String getReportsPath() {
+		return reportsPath;
 	}
 
 	public ExtentTest getTest() {
@@ -160,8 +160,8 @@ public class BrowserReports extends ExtentReports {
 		try {
 			fileName = Utils.removeChars(fileName, "~!@#$&%^*':<>\\/()[]{}") + "_" + System.currentTimeMillis();
 			File screenshot = browserCam.getScreenshotAs(OutputType.FILE);
-			new File(loggerPath).mkdirs();
-			File f = new File(Utils.print(loggerPath + "\\" + fileName + ".png"));
+			new File(reportsPath).mkdirs();
+			File f = new File(Utils.print(reportsPath + "\\" + fileName + ".png"));
 			FileUtils.copyFile(screenshot, f);
 			return f;
 		} catch (Exception e) {

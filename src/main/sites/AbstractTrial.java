@@ -15,7 +15,7 @@ public abstract class AbstractTrial extends Thread {
 
 	public final RemoteWebDriver remoteDriver;
 	public final WebDriver driver;
-	public final BrowserReports logger;
+	public final BrowserReports reports;
 	public final BrowserHandler web;
 
 	protected static final String date = Utils.getDate();
@@ -35,21 +35,21 @@ public abstract class AbstractTrial extends Thread {
 		this.url = url;
 		this.driver = driver;
 		this.remoteDriver = (RemoteWebDriver) driver;
-		this.logger = new BrowserReports(getLoggerPath(), getClass(), driver);
-		this.web = new BrowserHandler(driver, logger, 15);
+		this.reports = new BrowserReports(getLoggerPath(), getClass(), driver);
+		this.web = new BrowserHandler(driver, reports, 15);
 	}
 
 	public AbstractTrial(WebDriver driver, BrowserReports logger, String url) {
 		this.pass = false;
 		this.url = url;
 		this.driver = driver;
-		this.logger = logger;
+		this.reports = logger;
 		this.remoteDriver = (RemoteWebDriver) driver;
 		this.web = new BrowserHandler(driver, logger, 15);
 	}
 
 	public AbstractTrial(BrowserHandler web, String url) {
-		this(web.driver, web.logger, url);
+		this(web.driver, web.reports, url);
 	}
 
 	public void run() {
@@ -60,7 +60,7 @@ public abstract class AbstractTrial extends Thread {
 			pass = true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.logStackTrace(e);
+			reports.logStackTrace(e);
 		} finally {
 			tearDown();
 		}
@@ -72,9 +72,9 @@ public abstract class AbstractTrial extends Thread {
 
 	public void tearDown() {
 		try {
-			logger.logInfo("Tearing down test...");
-			logger.logCriticalEvent(pass);
-			logger.endTest();
+			reports.logInfo("Tearing down test...");
+			reports.logCriticalEvent(pass);
+			reports.endTest();
 			Utils.openFile(getLoggerPath() + "Result.html");
 			driver.quit();
 		} catch (Exception e) {
