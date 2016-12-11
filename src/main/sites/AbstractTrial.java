@@ -1,4 +1,4 @@
-package main.sites;
+ package main.sites;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -13,7 +13,6 @@ public abstract class AbstractTrial extends Thread {
 	protected boolean pass;
 	protected String url;
 
-	public final RemoteWebDriver remoteDriver;
 	public final WebDriver driver;
 	public final BrowserReports reports;
 	public final BrowserHandler web;
@@ -34,7 +33,6 @@ public abstract class AbstractTrial extends Thread {
 		this.pass = false;
 		this.url = url;
 		this.driver = driver;
-		this.remoteDriver = (RemoteWebDriver) driver;
 		this.reports = new BrowserReports(getLoggerPath(), getClass(), driver);
 		this.web = new BrowserHandler(driver, reports, 15);
 	}
@@ -44,7 +42,6 @@ public abstract class AbstractTrial extends Thread {
 		this.url = url;
 		this.driver = driver;
 		this.reports = logger;
-		this.remoteDriver = (RemoteWebDriver) driver;
 		this.web = new BrowserHandler(driver, logger, 15);
 	}
 
