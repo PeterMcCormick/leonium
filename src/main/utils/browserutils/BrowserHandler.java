@@ -47,7 +47,6 @@ public class BrowserHandler {
 	public final BrowserBot bot;
 	public final TargetLocator switchTo;
 	public final BrowserHandlerOptions options;
-	private int defaultWait;
 
 	@SuppressWarnings("unused")
 	private BrowserHandler() {
@@ -70,7 +69,6 @@ public class BrowserHandler {
 		this.driver = driver;
 		this.logger = logger;
 		this.switchTo = driver.switchTo();
-		this.defaultWait = defaultWait;
 		this.jse = ((JavascriptExecutor) driver);
 
 		this.options = new BrowserHandlerOptions();
@@ -81,7 +79,7 @@ public class BrowserHandler {
 		options.screenshotOnClick.setValue(true);
 		options.screenshotOnSendKeys.setValue(true);
 		options.screenshotOnSelect.setValue(true);
-		options.screenshotOnEvent.setValue(true);;
+		options.screenshotOnEvent.setValue(true);
 		options.continueOnNoSuchElement.setValue(false);
 		options.continueOnTimeout.setValue(false);
 	}
@@ -530,7 +528,7 @@ public class BrowserHandler {
 
 	// return true when pop up appears
 	public boolean waitForPopup() {
-		return logger.logMinorEvent(wait.forAlert(defaultWait), "Pop up found");
+		return logger.logMinorEvent(wait.forAlert(options.defaultWait.getValue()), "Pop up found");
 	}
 
 	// return string representation of WebElement
