@@ -6,10 +6,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -23,14 +19,9 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
-
-import com.relevantcodes.extentreports.ExtentTest;
 
 public class Utils {
 
@@ -163,25 +154,14 @@ public class Utils {
 		return obj.getClass().getSimpleName() + " - " + obj.hashCode();
 	}
 
-	// @return = array of text from each link element
-	public static String[] getLinks(WebDriver driver, ExtentTest logger) {
-		WebElement element = driver.findElement(By.id("SideBarMenu"));
-		List<WebElement> linkElements = element.findElements(By.tagName("li"));
-		String[] linkHref = new String[linkElements.size()];
-
-		for (int i = 0; i < linkElements.size(); i++) {
-			linkHref[i] = linkElements.get(i).getText();
-		}
-		return linkHref;
-	}
-
 	public static String getRandomString(int length) {
-		StringBuilder randomString = new StringBuilder();
-		long t0 = System.currentTimeMillis();
-		while (length > randomString.length()) {
-			randomString.append(getColumnVal(t0 + randint((int) t0 / 1000)));
+		StringBuilder sb = new StringBuilder();
+		int a = (int) 'a';
+		int z = (int) 'z';
+		for (int i = 0; i < length; i++) {
+			sb.append((char) randint(a, z));
 		}
-		return randomString.substring(0, Math.min(randomString.length(), length));
+		return sb.toString();
 	}
 
 	public static <T> ArrayList<Class<?>> getSubClasses(T t) {
