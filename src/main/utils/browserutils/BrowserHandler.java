@@ -140,7 +140,7 @@ public class BrowserHandler {
 		} catch (Exception e) {
 			outcome = getElement(With.text(expectedText)) != null;
 		}
-		return reports.logMinorEvent(outcome, "[" + webElementToString(we) + "] contained text '" + expectedText + "'");
+		return reports.reportMinorEvent(outcome, "[" + webElementToString(we) + "] contained text '" + expectedText + "'");
 	}
 
 	public WebElement getActiveElement() {
@@ -158,7 +158,7 @@ public class BrowserHandler {
 	// return non-stale WebElement specified by byType
 	public WebElement getElement(By by) {
 		WebElement we = wait.forConditions(by, options.defaultWait.getValue(), "presence", "stale");
-		reports.logMinorEvent(we != null, "Located element [" + webElementToString(we) + "]");
+		reports.reportMinorEvent(we != null, "Located element [" + webElementToString(we) + "]");
 		return we;
 	}
 
@@ -175,7 +175,7 @@ public class BrowserHandler {
 	public ArrayList<WebElement> getElements(By by) {
 		ArrayList<WebElement> elements = wait.forPresences(options.defaultWait.getValue(), by);
 		int count = elements.size();
-		reports.logMinorEvent(count > 0, "Located " + count + " elements [" + by + "]");
+		reports.reportMinorEvent(count > 0, "Located " + count + " elements [" + by + "]");
 		return elements;
 	}
 
@@ -234,7 +234,7 @@ public class BrowserHandler {
 		String text = null;
 		text = we.getText();
 		String details = "Retrieved text from element [" + webElementToString(we) + "]";
-		reports.logMinorEvent(Utils.strsNotNull(text), details + "<br></u></strike><b>\"" + text + "\"</b>");
+		reports.reportMinorEvent(Utils.strsNotNull(text), details + "<br></u></strike><b>\"" + text + "\"</b>");
 		screenshotElement(we);
 		return text;
 	}
@@ -287,7 +287,7 @@ public class BrowserHandler {
 	}
 
 	public boolean isDisplayed(WebElement we) {
-		return reports.logMinorEvent(we.isDisplayed(), "Element [" + webElementToString(we) + "] is displayed.");
+		return reports.reportMinorEvent(we.isDisplayed(), "Element [" + webElementToString(we) + "] is displayed.");
 	}
 
 	public boolean isEnabled(By by) {
@@ -295,7 +295,7 @@ public class BrowserHandler {
 	}
 
 	public boolean isEnabled(WebElement we) {
-		return reports.logMinorEvent(we.isEnabled(), "Element [" + webElementToString(we) + "] is enabled.");
+		return reports.reportMinorEvent(we.isEnabled(), "Element [" + webElementToString(we) + "] is enabled.");
 	}
 
 	public boolean isSelected(By by) {
@@ -303,13 +303,13 @@ public class BrowserHandler {
 	}
 
 	public boolean isSelected(WebElement we) {
-		return reports.logMinorEvent(we.isSelected(), "Element [" + webElementToString(we) + "] is selected.");
+		return reports.reportMinorEvent(we.isSelected(), "Element [" + webElementToString(we) + "] is selected.");
 	}
 
 	public boolean navigateTo(String url) {
 		driver.get(url);
 		String details = "Successfully navigated to url '" + url + "'";
-		return reports.logMinorEvent(wait.forPageLoad(options.defaultWait.getValue()), details);
+		return reports.reportMinorEvent(wait.forPageLoad(options.defaultWait.getValue()), details);
 	}
 
 	// print all driver logs
@@ -363,7 +363,7 @@ public class BrowserHandler {
 	// select by WebElement
 	public Select select(WebElement we) {
 		Select select = new Select(we);
-		reports.logMinorEvent(select != null, "Selected [" + webElementToString(we) + "]");
+		reports.reportMinorEvent(select != null, "Selected [" + webElementToString(we) + "]");
 		if (options.screenshotOnSelect.getValue()) {
 			screenshotElement(we);
 		}
@@ -377,7 +377,7 @@ public class BrowserHandler {
 	// select by WebElement and select index option
 	public void selectByIndex(WebElement we, int index) {
 		select(we).selectByIndex(index);
-		reports.logMinorEvent(true, "Selected index \"" + index + "\" from [" + webElementToString(we) + "]");
+		reports.reportMinorEvent(true, "Selected index \"" + index + "\" from [" + webElementToString(we) + "]");
 		if (options.screenshotOnSelect.getValue()) {
 			screenshotElement(we);
 		}
@@ -400,7 +400,7 @@ public class BrowserHandler {
 	// select by WebElement and select visible text
 	public void selectByVisibleText(WebElement we, String visibleText) {
 		select(we).selectByVisibleText(visibleText);
-		reports.logMinorEvent(true, "Selected \"" + visibleText + "\" from [" + webElementToString(we) + "]");
+		reports.reportMinorEvent(true, "Selected \"" + visibleText + "\" from [" + webElementToString(we) + "]");
 		if (options.screenshotOnSelect.getValue()) {
 			screenshotElement(we);
 		}
@@ -475,7 +475,7 @@ public class BrowserHandler {
 
 	// return true when pop up appears
 	public boolean waitForPopup() {
-		return reports.logMinorEvent(wait.forAlert(options.defaultWait.getValue()), "Pop up found");
+		return reports.reportMinorEvent(wait.forAlert(options.defaultWait.getValue()), "Pop up found");
 	}
 
 	// return string representation of WebElement

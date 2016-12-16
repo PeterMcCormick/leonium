@@ -36,7 +36,7 @@ public class BrowserWait {
 		WebElement we = forPresence(by, waitSeconds);
 		if (timeRemains(waitSeconds, t0) && we != null && we.isEnabled() != isEnabled) {
 			String details = "Waiting for element to be " + (isEnabled ? "en" : "dis") + "abled ";
-			logger.logDataRetrieval(details + "[" + web.webElementToString(we) + "]");
+			logger.reportDataRetrieval(details + "[" + web.webElementToString(we) + "]");
 			while (we.isEnabled() != isEnabled && timeRemains(waitSeconds, t0)) {
 				continue;
 			}
@@ -143,7 +143,7 @@ public class BrowserWait {
 			public Boolean apply(WebDriver driver) {
 				JavascriptExecutor jse = (JavascriptExecutor) driver;
 				String returnVal = jse.executeScript("return document.readyState").toString();
-				logger.logDataRetrieval("Current webpage loading-state is \"" + returnVal + "\"");
+				logger.reportDataRetrieval("Current webpage loading-state is \"" + returnVal + "\"");
 				return returnVal.equals(state);
 			}
 
@@ -187,7 +187,7 @@ public class BrowserWait {
 		boolean outcome = false;
 		try {
 			if (waitSeconds > 0) {
-				logger.logDataRetrieval("Waiting for " + web.webElementToString(condition.toString()));
+				logger.reportDataRetrieval("Waiting for " + web.webElementToString(condition.toString()));
 				WebDriverWait wait = new WebDriverWait(driver, waitSeconds);
 				try {
 					wait.until(ExpectedConditions.refreshed((ExpectedCondition<T>) condition));
@@ -216,7 +216,7 @@ public class BrowserWait {
 			isKeyable = true;
 		} catch (Exception e) {
 			String details = "Waiting for element to be keyable ";
-			logger.logDataRetrieval(details + "[" + web.webElementToString(we) + "]");
+			logger.reportDataRetrieval(details + "[" + web.webElementToString(we) + "]");
 			while (!isKeyable && timeRemains(waitSeconds, t0)) {
 				try {
 					we.sendKeys(" ", Keys.BACK_SPACE);
@@ -226,7 +226,7 @@ public class BrowserWait {
 					continue;
 				}
 			}
-			logger.logMinorEvent(isKeyable, "[" + web.webElementToString(we) + "] is keyable");
+			logger.reportMinorEvent(isKeyable, "[" + web.webElementToString(we) + "] is keyable");
 		}
 		return we;
 	}

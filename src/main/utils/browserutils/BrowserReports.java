@@ -70,13 +70,6 @@ public class BrowserReports extends ExtentReports {
 
 	// @return = boolean success
 	// @optional parameter: testName
-	public boolean logCriticalEvent(boolean success) {
-		String testName = extentTest.getTest().getName();
-		return reportCriticalEvent(success, testName, testName);
-	}
-
-	// @return = boolean success
-	// @optional parameter: testName
 	public boolean reportCriticalEvent(boolean success) {
 		return reportCriticalEvent(success, getTestName());
 	}
@@ -102,7 +95,7 @@ public class BrowserReports extends ExtentReports {
 	}
 
 	// Specifically log data-retrieval & data-capture information
-	public String logDataRetrieval(String description) {
+	public String reportDataRetrieval(String description) {
 		return reportInfo(colorTag("purple", description));
 	}
 
@@ -148,13 +141,13 @@ public class BrowserReports extends ExtentReports {
 		return info;
 	}
 
-	public boolean logMinorEvent(boolean outcome, String passMessage) {
+	public boolean reportMinorEvent(boolean outcome, String passMessage) {
 		String failMessage = colorTag("red", "<strike>" + passMessage + "</strike>") + " = " + outcome;
-		return logMinorEvent(outcome, passMessage, failMessage);
+		return reportMinorEvent(outcome, passMessage, failMessage);
 	}
 
 	// log outcome of non-critical-event
-	public boolean logMinorEvent(boolean outcome, String passMessage, String failMessage) {
+	public boolean reportMinorEvent(boolean outcome, String passMessage, String failMessage) {
 		if (outcome) {
 			String description = colorTag("blue", passMessage);
 			Utils.printR(removeTags(description.replace("<br>", "\n\t")));
@@ -198,15 +191,15 @@ public class BrowserReports extends ExtentReports {
 		}
 	}
 
-	public boolean textContains(String dynamicVal, String expectedVal) {
+	public boolean reportTextContains(String dynamicVal, String expectedVal) {
 		String passMessage = "'" + dynamicVal + "' contains '" + expectedVal + "'";
 		String failMessage = "'" + dynamicVal + "' does not contain '" + expectedVal + "'";
-		return logMinorEvent(expectedVal.contains(dynamicVal), passMessage, failMessage);
+		return reportMinorEvent(expectedVal.contains(dynamicVal), passMessage, failMessage);
 	}
 
-	public boolean textEquals(String dynamicVal, String expectedVal) {
+	public boolean reportTextEquals(String dynamicVal, String expectedVal) {
 		String passMessage = "'" + dynamicVal + "' matches '" + expectedVal + "'";
 		String failMessage = "'" + dynamicVal + "' does not match '" + expectedVal + "'";
-		return logMinorEvent(expectedVal.equals(dynamicVal), passMessage, failMessage);
+		return reportMinorEvent(expectedVal.equals(dynamicVal), passMessage, failMessage);
 	}
 }
