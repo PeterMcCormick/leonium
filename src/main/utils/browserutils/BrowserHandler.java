@@ -34,6 +34,7 @@ import com.google.common.base.Function;
 
 import main.sites.AbstractTrial;
 import main.utils.Utils;
+import main.utils.browserutils.browserreporting.BrowserReports;
 
 public class BrowserHandler {
 
@@ -140,7 +141,8 @@ public class BrowserHandler {
 		} catch (Exception e) {
 			outcome = getElement(With.text(expectedText)) != null;
 		}
-		return reports.reportMinorEvent(outcome, "[" + webElementToString(we) + "] contained text '" + expectedText + "'");
+		return reports.reportMinorEvent(outcome,
+				"[" + webElementToString(we) + "] contained text '" + expectedText + "'");
 	}
 
 	public WebElement getActiveElement() {
@@ -333,24 +335,27 @@ public class BrowserHandler {
 
 	public void screenshotElement(WebElement we) {
 		File file = null;
-		if (we.isDisplayed()) {
-			try {
-				bot.moveToElement(we);
-				String eleName = Utils.removeChars(webElementToString(we), "~!@#$&%^*':<>\\/()[]{}") + " - ";
-				File screenshot = ((RemoteWebDriver) driver).getScreenshotAs(OutputType.FILE);
-				Point p = we.getLocation();
-				Dimension dim = we.getSize();
-				BufferedImage fullImg = ImageIO.read(screenshot);
-				BufferedImage eleScreenshot = fullImg.getSubimage(p.getX(), p.getY(), dim.getWidth(), dim.getHeight());
-				ImageIO.write(eleScreenshot, "png", screenshot);
-				file = new File(reports.getReportsPath() + eleName + System.currentTimeMillis() + ".png");
-				FileUtils.copyFile(screenshot, file);
-				reports.reportInfo(reports.getTest().addScreenCapture(file.getName()) + "<br>"
-						+ reports.colorTag("green", file.getName()));
-			} catch (UnhandledAlertException uae) {
-				bot.screenshotElement(we);
-			} catch (RasterFormatException e) {
-			} catch (Exception e) {
+		if (options.screenshotOnEvent.getValue()) {
+			if (we.isDisplayed()) {
+				try {
+					bot.moveToElement(we);
+					String eleName = Utils.removeChars(webElementToString(we), "~!@#$&%^*':<>\\/()[]{}") + " - ";
+					File screenshot = ((RemoteWebDriver) driver).getScreenshotAs(OutputType.FILE);
+					Point p = we.getLocation();
+					Dimension dim = we.getSize();
+					BufferedImage fullImg = ImageIO.read(screenshot);
+					BufferedImage eleScreenshot = fullImg.getSubimage(p.getX(), p.getY(), dim.getWidth(),
+							dim.getHeight());
+					ImageIO.write(eleScreenshot, "png", screenshot);
+					file = new File(reports.getReportsPath() + eleName + System.currentTimeMillis() + ".png");
+					FileUtils.copyFile(screenshot, file);
+					reports.reportInfo(reports.getTest().addScreenCapture(file.getName()) + "<br>"
+							+ reports.colorTag("green", file.getName()));
+				} catch (UnhandledAlertException uae) {
+					bot.screenshotElement(we);
+				} catch (RasterFormatException e) {
+				} catch (Exception e) {
+				}
 			}
 		}
 	}
@@ -439,7 +444,8 @@ public class BrowserHandler {
 		String parentWindow = driver.getWindowHandle(); // parent window
 		String childWindow = driver.getWindowHandles().iterator().next();
 		switchTo.window(childWindow);
-		reports.reportInfo("Switching to window: [" + driver.getTitle() + "]\n<br />\"" + driver.getCurrentUrl() + "\"");
+		reports.reportInfo(
+				"Switching to window: [" + driver.getTitle() + "]\n<br />\"" + driver.getCurrentUrl() + "\"");
 		return parentWindow;
 	}
 

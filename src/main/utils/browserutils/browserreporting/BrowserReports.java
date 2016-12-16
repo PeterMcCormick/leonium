@@ -1,4 +1,4 @@
-package main.utils.browserutils;
+package main.utils.browserutils.browserreporting;
 
 import java.io.File;
 import java.util.Arrays;
@@ -17,30 +17,27 @@ import com.relevantcodes.extentreports.LogStatus;
 import main.sites.AbstractTrial;
 import main.utils.Utils;
 
-public class BrowserReports extends ExtentReports {
-	private final TakesScreenshot browserCam;
+public class BrowserReports {
+	private TakesScreenshot browserCam;
 	private final ExtentTest extentTest;
-	private final String reportsPath;
+	private static String reportsPath;
 
 	public BrowserReports(String reportsPath, Class<? extends AbstractTrial> trial, WebDriver driver) {
-		super(reportsPath + "/Result.html", false);
-		this.reportsPath = reportsPath;
-		this.extentTest = startTest(getTrialName(trial));
-		this.browserCam = (TakesScreenshot) new Augmenter().augment(driver);
+		BrowserReports.reportsPath = reportsPath;
 		Utils.createMissingDirectories(reportsPath);
+		BrowserReportsManager.getReporter(reportsPath + "Result.html");
+		this.extentTest = BrowserTestManager.startTest(getTrialName(trial));
+		this.browserCam = (TakesScreenshot) new Augmenter().augment(driver);
 	}
 
 	public String colorTag(String color, String text) {
 		return "<font color = \"" + color + "\">" + text + "</font>";
 	}
 
-	public synchronized void endTest() {
-		try {
-			this.flush();
-			this.endTest(extentTest);
-		} catch (Exception e) {
-			Utils.printStackTrace(e);
-		}
+	// flushes test to HTML report
+	public void endTest() {
+		BrowserTestManager.endTest();
+		BrowserReportsManager.getReporter(reportsPath).flush();
 	}
 
 	public String getReportsPath() {

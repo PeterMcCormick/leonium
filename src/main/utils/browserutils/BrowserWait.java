@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.google.common.base.Function;
 
 import main.utils.Utils;
+import main.utils.browserutils.browserreporting.BrowserReports;
 
 public class BrowserWait {
 

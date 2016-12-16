@@ -1,6 +1,7 @@
 package main.utils.metadata;
 
 import main.sites.addressgenerator.trials.AddressGeneratorDemo0;
+import main.utils.TrialExecutor;
 import main.utils.Utils;
 import main.utils.browserutils.BrowserHandler;
 
@@ -23,9 +24,23 @@ public class ActorFactory {
 	}
 
 	public static ActorMetaData getLiveActor(BrowserHandler web) {
-		AddressGeneratorDemo0 agd = new AddressGeneratorDemo0(web);
+		AddressGeneratorDemo0 agd = new AddressGeneratorDemo0(web) {
+			private boolean defaultVal;
+
+			@Override
+			protected void setup() {
+				this.defaultVal = web.options.screenshotOnEvent.getValue();
+				web.options.screenshotOnEvent.setValue(false);
+
+			}
+
+			@Override
+			protected void tearDown() {
+				web.options.screenshotOnEvent.setValue(this.defaultVal);
+			}
+		};
 		agd.run();
-		
+
 		int socialSecurityNumber = AbstractActorMetaData.createSocialSecurityNumber();
 		String firstName = AbstractActorMetaData.createUniqueName();
 		String lastName = AbstractActorMetaData.createUniqueName();

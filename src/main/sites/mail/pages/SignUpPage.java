@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import main.sites.PageObject;
 import main.sites.AbstractTrial;
 import main.utils.Utils;
-import main.utils.browserutils.BrowserReports;
+import main.utils.browserutils.browserreporting.BrowserReports;
 
 public class SignUpPage extends PageObject {
 	public By byInputFirstName = By.xpath("(.//input)[2]");

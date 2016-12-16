@@ -22,6 +22,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import com.sun.glass.events.KeyEvent;
 
 import main.utils.Utils;
+import main.utils.browserutils.browserreporting.BrowserReports;
 
 public class BrowserBot {
 	public class UrlListener extends Thread {
