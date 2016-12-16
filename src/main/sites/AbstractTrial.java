@@ -1,11 +1,11 @@
- package main.sites;
+package main.sites;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import main.utils.Utils;
 import main.utils.browserutils.BrowserHandler;
-import main.utils.browserutils.BrowserReports;
+import main.utils.browserutils.browserreporting.BrowserReports;
 import main.utils.browserutils.browserwrappers.PhantomBrowser;
 
 public abstract class AbstractTrial extends Thread {
@@ -67,7 +67,7 @@ public abstract class AbstractTrial extends Thread {
 
 	protected abstract void test();
 
-	public void tearDown() {
+	protected void tearDown() {
 		try {
 			reports.reportInfo("Tearing down test...");
 			reports.reportCriticalEvent(pass);
@@ -75,6 +75,7 @@ public abstract class AbstractTrial extends Thread {
 			Utils.openFile(getLoggerPath() + "Result.html");
 			driver.quit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			Utils.printStackTrace(e);
 		}
 	}

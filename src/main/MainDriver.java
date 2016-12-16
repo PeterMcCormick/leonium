@@ -12,6 +12,7 @@ import main.sites.mail.trials.MailDemo2;
 import main.sites.msn.trials.MsnDemo1;
 import main.sites.smartystreets.trials.SmartyStreetDemo0;
 import main.sites.twitter.trials.TwitterDemo0;
+import main.utils.TrialExecutor;
 import main.utils.Utils;
 
 public class MainDriver {
@@ -22,7 +23,8 @@ public class MainDriver {
 			// mailTest2b();
 			// fpTest();
 			// hnhhTest();
-			smartyStreetTest();
+			trialExecutorTest0();
+			// smartyStreetTest();
 			// addressGeneratorTest();
 			// mailTest1();
 			// msnTest();
@@ -30,6 +32,11 @@ public class MainDriver {
 		} catch (Exception e) {
 			Utils.printStackTrace(e);
 		}
+	}
+
+	public static void trialExecutorTest0() {
+		TrialExecutor te = new TrialExecutor(3);
+		te.executeTrials(new AddressGeneratorDemo0());
 	}
 
 	public static void addressGeneratorTest() {

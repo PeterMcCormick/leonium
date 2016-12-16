@@ -4,6 +4,7 @@ import main.sites.addressgenerator.AbstractAddressGeneratorTrial;
 import main.utils.browserutils.BrowserHandler;
 
 public class AddressGeneratorDemo0 extends AbstractAddressGeneratorTrial {
+	private String[] addresses;
 
 	public AddressGeneratorDemo0() {
 	}
@@ -12,14 +13,10 @@ public class AddressGeneratorDemo0 extends AbstractAddressGeneratorTrial {
 		super(web);
 	}
 
-	private String[] addresses;
-
+	@Override
 	protected void test() {
 		landingPage.enterDetails();
 		addresses = web.getTexts(landingPage.byDivAddresses);
-	}
-
-	public void tearDown() {
 	}
 
 	public String[] getAddresses() {
