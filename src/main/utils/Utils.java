@@ -216,8 +216,7 @@ public class Utils {
 	}
 
 	public static StackTraceElement lastMethodCall(int n) {
-		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-		return stackTraceElements[n];
+		return Thread.currentThread().getStackTrace()[n];
 	}
 
 	public static void createMissingDirectories(String directory) {
