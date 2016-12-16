@@ -220,7 +220,7 @@ public class Utils {
 		return stackTraceElements[n];
 	}
 
-	public static void makeMissingDirectories(String directory) {
+	public static void createMissingDirectories(String directory) {
 		new File(directory).mkdirs();
 	}
 
