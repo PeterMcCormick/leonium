@@ -75,11 +75,11 @@ public class BrowserBot {
 		String fileName = eleName + System.currentTimeMillis() + ".png";
 		String directory = logger.getReportsPath();
 		File file = new File(directory + fileName);
-		logger.logInfo(logger.getTest().addScreenCapture(file.getName()) + logger.colorTag("green", file.getName()));
+		logger.reportInfo(logger.getTest().addScreenCapture(file.getName()) + logger.colorTag("green", file.getName()));
 		try {
 			ImageIO.write(bi, "png", file);
 		} catch (IOException e) {
-			logger.logStackTrace(e);
+			logger.reportStackTrace(e);
 		}
 		return file;
 	}
@@ -89,7 +89,7 @@ public class BrowserBot {
 		try {
 			rwd.getCommandExecutor().execute(new Command(rwd.getSessionId(), DriverCommand.ELEMENT_SCREENSHOT));
 		} catch (IOException e) {
-			logger.logStackTrace(e);
+			logger.reportStackTrace(e);
 		}
 
 	}

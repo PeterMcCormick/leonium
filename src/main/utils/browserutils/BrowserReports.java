@@ -72,10 +72,26 @@ public class BrowserReports extends ExtentReports {
 	// @optional parameter: testName
 	public boolean logCriticalEvent(boolean success) {
 		String testName = extentTest.getTest().getName();
-		return logCriticalEvent(success, testName, testName);
+		return reportCriticalEvent(success, testName, testName);
 	}
 
-	public boolean logCriticalEvent(boolean success, String pass, String fail) {
+	// @return = boolean success
+	// @optional parameter: testName
+	public boolean reportCriticalEvent(boolean success) {
+		return reportCriticalEvent(success, getTestName());
+	}
+
+	// @return = boolean success
+	// @optional parameter: event description
+	// wrapper method for reportCriticalEvent(success, pass, fail);
+	public boolean reportCriticalEvent(boolean success, String event) {
+		return reportCriticalEvent(success, event, event);
+	}
+
+	// @return = boolean success
+	// reports outcome of critical-event
+	// the outcome of this method call determines the success of the test
+	public boolean reportCriticalEvent(boolean success, String pass, String fail) {
 		if (success) {
 			extentTest.log(LogStatus.PASS, colorTag("blue", pass));
 		} else {
@@ -87,11 +103,11 @@ public class BrowserReports extends ExtentReports {
 
 	// Specifically log data-retrieval & data-capture information
 	public String logDataRetrieval(String description) {
-		return logInfo(colorTag("purple", description));
+		return reportInfo(colorTag("purple", description));
 	}
 
 	// Add log dialogue to report corresponding to specified exception
-	public String logStackTrace(Exception e) {
+	public String reportStackTrace(Exception e) {
 		StringBuilder result = new StringBuilder();
 		StackTraceElement ste = Utils.lastMethodCall(3);
 		String exceptionName = colorTag("red", e.getClass().getSimpleName());
@@ -116,11 +132,11 @@ public class BrowserReports extends ExtentReports {
 			result.append(delimiter + ">> " + klickable(sti));
 		}
 
-		return logInfo("<b><u>" + header + "<br></b></u>" + result.toString());
+		return reportInfo("<b><u>" + header + "<br></b></u>" + result.toString());
 	}
 
 	// Log multiple details delimited by line break
-	public String logInfo(String baseString, Object... args) {
+	public String reportInfo(String baseString, Object... args) {
 		String info = String.format(baseString, args);
 		try {
 			Utils.printR("\n\nLogging information...");
@@ -145,7 +161,7 @@ public class BrowserReports extends ExtentReports {
 			description = description.replace(" = false", "").replace(" = true", "");
 			extentTest.log(LogStatus.PASS, description);
 		} else {
-			logInfo(colorTag("red", failMessage));
+			reportInfo(colorTag("red", failMessage));
 		}
 		return outcome;
 	}
@@ -165,7 +181,7 @@ public class BrowserReports extends ExtentReports {
 			FileUtils.copyFile(screenshot, f);
 			return f;
 		} catch (Exception e) {
-			logStackTrace(e);
+			reportStackTrace(e);
 		}
 		return null;
 	}
@@ -176,9 +192,9 @@ public class BrowserReports extends ExtentReports {
 
 	public void screenshotPage(String testDescription) {
 		try {
-			logInfo(extentTest.addScreenCapture(screenshot(testDescription).getName()) + testDescription);
+			reportInfo(extentTest.addScreenCapture(screenshot(testDescription).getName()) + testDescription);
 		} catch (Exception e) {
-			logStackTrace(e);
+			reportStackTrace(e);
 		}
 	}
 

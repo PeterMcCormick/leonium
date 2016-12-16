@@ -93,13 +93,13 @@ public class BrowserHandler {
 			screenshotElement(we);
 		}
 		we.click();
-		reports.logInfo("Clicked [" + webElementToString(we) + "]");
+		reports.reportInfo("Clicked [" + webElementToString(we) + "]");
 	}
 
 	// switch to and close pop up
 	public void closePopup() {
 		String parent = switchToPopup();
-		reports.logInfo("Closing window: [" + driver.getCurrentUrl() + "]");
+		reports.reportInfo("Closing window: [" + driver.getCurrentUrl() + "]");
 		switchTo.alert().dismiss();
 		switchTo.window(parent);
 	}
@@ -120,9 +120,9 @@ public class BrowserHandler {
 	// deletes all cached cookies and logs each deletion
 	public void deleteAllCookies() {
 		Options driverManager = driver.manage();
-		reports.logInfo("Deleting all cookies");
+		reports.reportInfo("Deleting all cookies");
 		for (Cookie cookie : driverManager.getCookies()) {
-			reports.logInfo("Deleting cookie \"" + cookie.getName() + "\"");
+			reports.reportInfo("Deleting cookie \"" + cookie.getName() + "\"");
 		}
 		driverManager.deleteAllCookies();
 	}
@@ -323,7 +323,7 @@ public class BrowserHandler {
 	public void printDriverLogs(String logType) {
 		Iterator<LogEntry> iterator = driver.manage().logs().get(logType).iterator();
 		while (iterator.hasNext()) {
-			reports.logInfo(iterator.next().getMessage());
+			reports.reportInfo(iterator.next().getMessage());
 		}
 	}
 
@@ -345,7 +345,7 @@ public class BrowserHandler {
 				ImageIO.write(eleScreenshot, "png", screenshot);
 				file = new File(reports.getReportsPath() + eleName + System.currentTimeMillis() + ".png");
 				FileUtils.copyFile(screenshot, file);
-				reports.logInfo(reports.getTest().addScreenCapture(file.getName()) + "<br>"
+				reports.reportInfo(reports.getTest().addScreenCapture(file.getName()) + "<br>"
 						+ reports.colorTag("green", file.getName()));
 			} catch (UnhandledAlertException uae) {
 				bot.screenshotElement(we);
@@ -428,7 +428,7 @@ public class BrowserHandler {
 		}
 		we.sendKeys(keys);
 
-		reports.logInfo("Sent keys \"" + Utils.toString(keys) + "\" to [" + elem + "]");
+		reports.reportInfo("Sent keys \"" + Utils.toString(keys) + "\" to [" + elem + "]");
 		if (options.screenshotOnClick.getValue()) {
 			screenshotElement(we);
 		}
@@ -439,7 +439,7 @@ public class BrowserHandler {
 		String parentWindow = driver.getWindowHandle(); // parent window
 		String childWindow = driver.getWindowHandles().iterator().next();
 		switchTo.window(childWindow);
-		reports.logInfo("Switching to window: [" + driver.getTitle() + "]\n<br />\"" + driver.getCurrentUrl() + "\"");
+		reports.reportInfo("Switching to window: [" + driver.getTitle() + "]\n<br />\"" + driver.getCurrentUrl() + "\"");
 		return parentWindow;
 	}
 

@@ -57,7 +57,7 @@ public abstract class AbstractTrial extends Thread {
 			pass = true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			reports.logStackTrace(e);
+			reports.reportStackTrace(e);
 		} finally {
 			tearDown();
 		}
@@ -69,8 +69,8 @@ public abstract class AbstractTrial extends Thread {
 
 	public void tearDown() {
 		try {
-			reports.logInfo("Tearing down test...");
-			reports.logCriticalEvent(pass);
+			reports.reportInfo("Tearing down test...");
+			reports.reportCriticalEvent(pass);
 			reports.endTest();
 			Utils.openFile(getLoggerPath() + "Result.html");
 			driver.quit();

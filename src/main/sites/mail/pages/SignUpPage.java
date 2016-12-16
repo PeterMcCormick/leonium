@@ -77,43 +77,43 @@ public class SignUpPage extends PageObject {
 		BrowserReports bl = web.reports;
 		initSelectors();
 
-		bl.logInfo("First name1");
+		bl.reportInfo("First name1");
 		web.sendKeys(byInputFirstName, firstName);
 
-		bl.logInfo("Last name");
+		bl.reportInfo("Last name");
 		web.sendKeys(byInputLastName, lastName);
 
-		bl.logInfo("Desired email");
+		bl.reportInfo("Desired email");
 		web.sendKeys(byInputDesiredEmail, desiredEmail);
 
-		bl.logInfo("Password");
+		bl.reportInfo("Password");
 		web.sendKeys(byInputPassword, password);
 
-		bl.logInfo("Confirm password");
+		bl.reportInfo("Confirm password");
 		web.sendKeys(byInputConfirmPassword, password);
 
-		bl.logInfo("Gender");
+		bl.reportInfo("Gender");
 		web.selectByRandomIndex(bySelectGender);
 
-		bl.logInfo("Month");
+		bl.reportInfo("Month");
 		web.selectByRandomIndex(web.getElements(By.cssSelector("select")).get(1));
 
-		bl.logInfo("Year");
+		bl.reportInfo("Year");
 		web.selectByVisibleText(bySelectDobYear, "19" + Utils.randint(50, 90));
 
-		bl.logInfo("Day");
+		bl.reportInfo("Day");
 		web.selectByRandomIndex(bySelectDobDay);
 
-		bl.logInfo("Country");
+		bl.reportInfo("Country");
 		web.selectByRandomIndex(bySelectCountry);
 
-		bl.logInfo("Security question");
+		bl.reportInfo("Security question");
 		web.selectByRandomIndex(bySelectSecurityQuestion);
 
-		bl.logInfo("Security answer");
+		bl.reportInfo("Security answer");
 		web.sendKeys(byInputSecurityAnswer, "securityAnswer");
 
-		bl.logInfo("Create account");
+		bl.reportInfo("Create account");
 		web.click(byButtonCreateAccount);
 
 	}
