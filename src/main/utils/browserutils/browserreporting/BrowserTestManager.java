@@ -11,11 +11,11 @@ public class BrowserTestManager { // new
 	private static ExtentReports extent = BrowserReportsManager.getReporter();
 
 	public static synchronized ExtentTest getTest() {
-		return extentTestMap.get((int) (Thread.currentThread().getId()));
+		return extentTestMap.get(getThreadId());
 	}
 
 	public static synchronized void endTest() {
-		extent.endTest(extentTestMap.get((int) (Thread.currentThread().getId())));
+		extent.endTest(extentTestMap.get(getThreadId()));
 	}
 
 	public static synchronized ExtentTest startTest(String testName) {
@@ -24,7 +24,11 @@ public class BrowserTestManager { // new
 
 	public static synchronized ExtentTest startTest(String testName, String desc) {
 		ExtentTest test = extent.startTest(testName, desc);
-		extentTestMap.put((int) (Thread.currentThread().getId()), test);
+		extentTestMap.put(getThreadId(), test);
 		return test;
+	}
+
+	private static synchronized int getThreadId() {
+		return (int) Thread.currentThread().getId();
 	}
 }

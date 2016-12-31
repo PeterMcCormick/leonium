@@ -8,7 +8,10 @@ public abstract class AbstractFriendProjectTrial extends AbstractTrial {
 
 	public AbstractFriendProjectTrial(String url) {
 		super(url);
-		// TODO Auto-generated constructor stub
+	}
+
+	public AbstractFriendProjectTrial() {
+		super("http://www.friendproject.net/");
 	}
 
 	protected abstract void setup();

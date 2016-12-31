@@ -3,6 +3,7 @@ package main.utils;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import main.sites.AbstractTrial;
+import main.sites.friendproject.trials.FPDemo1;
 
 public class TrialExecutor {
 	static AtomicInteger runningTests = new AtomicInteger();
@@ -25,7 +26,7 @@ public class TrialExecutor {
 		runningTests.incrementAndGet();
 		new Thread() {
 			public void run() {
-				trial.run();
+				new FPDemo1().run();
 			}
 		}.start();
 		return trial;

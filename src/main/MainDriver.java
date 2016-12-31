@@ -36,7 +36,7 @@ public class MainDriver {
 
 	public static void trialExecutorTest0() {
 		TrialExecutor te = new TrialExecutor(3);
-		te.executeTrials(new AddressGeneratorDemo0());
+		te.executeTrials(null, null, null, null);
 	}
 
 	public static void addressGeneratorTest() {
@@ -48,7 +48,7 @@ public class MainDriver {
 	}
 
 	public static void fpTest() {
-		new FPDemo1("http://www.friendproject.net/").run();
+		new FPDemo1().run();
 	}
 
 	public static void hnhhTest() {

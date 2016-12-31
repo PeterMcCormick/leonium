@@ -4,8 +4,8 @@ import main.sites.friendproject.AbstractFriendProjectTrial;
 
 public class FPDemo1 extends AbstractFriendProjectTrial {
 
-	public FPDemo1(String url) {
-		super(url);
+	public FPDemo1( ) {
+		super();
 	}
 
 	@Override
